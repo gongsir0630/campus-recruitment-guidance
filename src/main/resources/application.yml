@@ -1,0 +1,32 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+  application:
+    name: campus-recruitment-guidance
+  thymeleaf:
+    cache: false
+    check-template: false
+    check-template-location: false
+    servlet:
+      content-type: text/html
+    enabled: false
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  # 配置文件环境
+  profiles:
+    active: dev
+
+# 设置日志级别
+logging:
+  level:
+    org.springframework.web: info
+    top.yzhelp.campus: debug
+
+# 微信小程序配置
+wx:
+  appid: wx2e1d0d6fb608404c
+  url: http://miniapp.yzhelp.top/wx
