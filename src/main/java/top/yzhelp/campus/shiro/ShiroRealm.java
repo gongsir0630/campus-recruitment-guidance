@@ -38,7 +38,8 @@ public class ShiroRealm {
   private JwtUtil jwtUtil;
 
   public static ShiroAccount getShiroAccount() {
-    return (ShiroAccount) SecurityUtils.getSubject().getPrincipal();
+    ShiroAccount account = (ShiroAccount) SecurityUtils.getSubject().getPrincipal();
+    return null != account ? account : new ShiroAccount("visitor","visitor",null);
   }
 
   /**

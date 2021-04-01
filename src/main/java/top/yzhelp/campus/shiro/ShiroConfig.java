@@ -64,7 +64,7 @@ public class ShiroConfig {
     filterRuleMap.put("/admin/user/login/**", "anon");
     // 可以配置多个filter，用逗号分隔，按顺序过滤
     // 所有请求通过 jwt Filter
-    filterRuleMap.put("/**", "authc,jwt");
+    filterRuleMap.put("/**", "jwt");
     factoryBean.setFilterChainDefinitionMap(filterRuleMap);
     return factoryBean;
   }

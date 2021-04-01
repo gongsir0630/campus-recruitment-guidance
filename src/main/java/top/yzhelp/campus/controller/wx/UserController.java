@@ -1,6 +1,7 @@
 package top.yzhelp.campus.controller.wx;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("wx/user")
+@Api(tags = "小程序用户接口")
 public class UserController {
 
   @Resource
@@ -46,6 +48,14 @@ public class UserController {
    * @return token
    */
   @PostMapping("/login")
+  @ApiOperation("用户登录")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "code",value = "小程序的 js_code",required = true)
+  })
+  @ApiResponses({
+    @ApiResponse(code = 200,message = "接口调用成功"),
+    @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
+  })
   public ResponseEntity<Result<Map<String,Object>>> login(String code) {
     if (StringUtils.isBlank(code)) {
       return new ResponseEntity<>(Result.fail(new CodeMsg(401,"code is empty"), null), HttpStatus.OK);

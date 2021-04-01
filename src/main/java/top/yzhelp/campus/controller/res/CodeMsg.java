@@ -13,11 +13,10 @@ public class CodeMsg {
   public static CodeMsg SUCCESS = new CodeMsg(0,"success");
 
   public static CodeMsg LOGIN_FAIL = new CodeMsg(-1,"code2session failure, please try aging");
-
   public static CodeMsg NO_USER = new CodeMsg(1000,"user not found");
-  public static CodeMsg SESSION_KEY_ERROR = new CodeMsg(1001,"sessionKey is invalid");
-  public static CodeMsg TOKEN_ERROR = new CodeMsg(1002,"token is invalid");
-  public static CodeMsg SHIRO_ERROR = new CodeMsg(1003,"token is invalid");
+
+  public static CodeMsg TOKEN_ERROR = new CodeMsg(401,"token is invalid");
+  public static CodeMsg SHIRO_ERROR = new CodeMsg(401,"token is invalid");
 
   public CodeMsg(int code, String errMsg) {
     this.code=code;
