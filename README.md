@@ -39,5 +39,5 @@ git clone https://github.com/gongsir0630/campus-recruitment-guidance.git
 
 3. mvn编译运行
 ```shell
-mvn clean package
+mvn spring-boot:run
 ```

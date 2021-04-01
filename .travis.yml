@@ -6,6 +6,7 @@ jdk:
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::7}
+    - PRONAME=campus-recruitment-guidance
 addons:
   ssh_known_hosts:
     - 39.106.230.88
@@ -15,6 +16,9 @@ branches:
   - main
 script: mvn clean package -Dmaven.test.skip=true
 
+services:
+- docker
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
@@ -22,8 +26,16 @@ before_install:
 - echo -e "Host yzhelp.top\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 after_success:
-- scp -o stricthostkeychecking=no -r target/campus-recruitment-guidance-0.0.1-SNAPSHOT.jar travis@yzhelp.top:/www/wwwroot/travis-app/campus-recruitment-guidance
-- ssh travis@yzhelp.top -o stricthostkeychecking=no "sh /www/wwwroot/travis-app/campus-recruitment-guidance/restart.sh"
+- scp -o stricthostkeychecking=no -r target/$PRONAME-0.0.1-SNAPSHOT.jar travis@yzhelp.top:/www/wwwroot/travis-app/$PRONAME
+- ssh travis@yzhelp.top -o stricthostkeychecking=no "sh /www/wwwroot/travis-app/$PRONAME/restart.sh"
+- echo "上传 docker 仓库"
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- export TAG=`if [ "$TRAVIS_BRANCH" == "main" ]; then echo "latest"; else echo $TRAVIS_BRANCH;
+  fi`
+- export IMAGE_NAME=gongsir0630/$PRONAME
+- docker build -t $IMAGE_NAME:$COMMIT .
+- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME:$TAG
 
 notifications:
   email:
