@@ -1,8 +1,6 @@
 package top.yzhelp.campus.wx.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.tools.javac.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,8 @@ import top.yzhelp.campus.util.JwtUtil;
 import top.yzhelp.campus.wx.service.WxService;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -61,6 +61,6 @@ public class WxServiceImpl implements WxService {
     JSONObject data = dto.getJSONObject("data");
     // 返回 shiro 验证体
     return new ShiroAccount(data.getString("openId")
-      ,data.getString("sessionKey"), List.of(JwtUtil.ROLE_WX));
+      ,data.getString("sessionKey"), Collections.singletonList(JwtUtil.ROLE_WX));
   }
 }
