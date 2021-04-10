@@ -1,5 +1,7 @@
 <h1 align="center">柚子帮-校招指导服务平台</h1>
-<p align="center">后端 API</p>
+<p align="center">
+  <a href="https://www.travis-ci.com/gongsir0630/campus-recruitment-guidance"><img src="https://www.travis-ci.com/gongsir0630/campus-recruitment-guidance.svg?branch=main"/></a>
+</p>
 
 ## 前言
 这里是我的本科毕业设计,建设一个方便、快捷、能有效联系在校毕业生和已就业师兄师姐的在线校招指导服务平台——“柚子帮”，并完成系统的设计与开发.平台致力于为西柚学子提供校招指导服务，提高毕业生在校招季的求职效率。

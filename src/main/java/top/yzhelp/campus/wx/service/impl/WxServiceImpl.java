@@ -60,6 +60,7 @@ public class WxServiceImpl implements WxService {
     // code2session success
     JSONObject data = dto.getJSONObject("data");
     // 返回 shiro 验证体
+    // todo: 小程序用户登录,设置角色信息为 wx
     return new ShiroAccount(data.getString("openId")
       ,data.getString("sessionKey"), Collections.singletonList(JwtUtil.ROLE_WX));
   }

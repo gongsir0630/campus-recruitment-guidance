@@ -16,6 +16,12 @@
   </properties>
 
   <dependencies>
+    <!-- hutool java tool -->
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>5.6.2</version>
+    </dependency>
     <!-- 引入 swagger 文档 -->
     <dependency>
       <groupId>io.springfox</groupId>
