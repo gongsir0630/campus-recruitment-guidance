@@ -26,6 +26,7 @@
 * 使用JWT进行校验，完全实现无状态鉴权
 * 使用Redis存储自定义登陆态token，支持过期时间
 * 支持跨域请求
+* 七牛云对象存储
 
 ## 使用
 0. 使用该项目之前请先部署 [wx-java-miniapp](https://github.com/gongsir0630/wx-java-miniapp)
