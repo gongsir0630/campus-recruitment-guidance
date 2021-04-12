@@ -62,6 +62,8 @@ public class ShiroConfig {
     //登陆相关api不需要被过滤器拦截
     filterRuleMap.put("/wx/user/login/**", "anon");
     filterRuleMap.put("/admin/user/login/**", "anon");
+    // public 公开接口无需认证
+    filterRuleMap.put("/public/**", "anon");
     // 可以配置多个filter，用逗号分隔，按顺序过滤
     // 所有请求通过 jwt Filter
     filterRuleMap.put("/**", "jwt");
