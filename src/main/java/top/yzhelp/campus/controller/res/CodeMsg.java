@@ -18,7 +18,8 @@ public class CodeMsg {
   public static CodeMsg TOKEN_ERROR = new CodeMsg(401,"token is invalid");
   public static CodeMsg SHIRO_ERROR = new CodeMsg(401,"token is invalid");
 
-  public static CodeMsg FIE_UPLOAD_ERROR = new CodeMsg(2000,"file upload fail, please retry");
+  public static CodeMsg FILE_UPLOAD_ERROR = new CodeMsg(2000,"file upload fail, please retry");
+  public static CodeMsg EDU_ERROR = new CodeMsg(3000,"未完善教育信息或者未通过教育认证");
 
   public CodeMsg(int code, String errMsg) {
     this.code=code;

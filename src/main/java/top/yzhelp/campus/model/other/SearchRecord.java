@@ -22,7 +22,7 @@ import java.util.Date;
 @ApiModel("搜索记录")
 public class SearchRecord implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("搜索ID,自增")
+  @ApiModelProperty(value = "搜索ID,自增",example = "1")
   private Integer id;
   @ApiModelProperty("用户 ID")
   private String openId;
@@ -30,6 +30,6 @@ public class SearchRecord implements Serializable {
   private String searchType;
   @ApiModelProperty("搜索关键字")
   private String keyword;
-  @ApiModelProperty("搜索次数")
+  @ApiModelProperty(value = "搜索次数",example = "1")
   private Integer searchTimes;
 }

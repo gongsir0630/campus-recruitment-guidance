@@ -22,5 +22,12 @@ public interface JobInfoService extends IService<JobInfo> {
    * @param id 工作信息 id
    * @return 最新工作信息
    */
-  JobInfo getEduInfoById(int id);
+  JobInfo getJobInfoById(int id);
+
+  /**
+   * 根据 openId 获取工作信息
+   * @param openId openId
+   * @return 最新工作信息
+   */
+  JobInfo getJobInfoByOpenId(String openId);
 }

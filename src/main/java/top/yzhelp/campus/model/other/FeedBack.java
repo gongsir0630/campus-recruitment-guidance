@@ -22,7 +22,7 @@ import java.util.Date;
 @ApiModel("小程序反馈信息")
 public class FeedBack implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("id,自增")
+  @ApiModelProperty(value = "id,自增",example = "1")
   private Integer id;
   @ApiModelProperty("用户 ID")
   private String openId;

@@ -20,11 +20,11 @@ import java.io.Serializable;
 @ApiModel("工作信息")
 public class JobInfo implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("工作信息 ID")
+  @ApiModelProperty(value = "工作信息 ID",example = "1")
   private Integer id;
   @ApiModelProperty("用户 openId")
   private String openId;
-  @ApiModelProperty("企业 ID")
+  @ApiModelProperty(value = "企业 ID",example = "1")
   private Integer companyId;
   @ApiModelProperty("部门名称")
   private String department;

@@ -22,7 +22,7 @@ import java.util.Date;
 @ApiModel("首页动态信息")
 public class DynamicInfo implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("动态 ID")
+  @ApiModelProperty(value = "动态 ID",example = "1")
   private Integer id;
   @ApiModelProperty("用户 ID")
   private String openId;
@@ -30,7 +30,7 @@ public class DynamicInfo implements Serializable {
   private String content;
   @ApiModelProperty("图片链接")
   private String imgUrl;
-  @ApiModelProperty("话题标签")
+  @ApiModelProperty("话题标签 id 列表,多个标签以','分隔")
   private String topicTags;
   @ApiModelProperty("发布时间")
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

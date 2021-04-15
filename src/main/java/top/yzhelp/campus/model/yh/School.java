@@ -20,7 +20,7 @@ import java.io.Serializable;
 @ApiModel("学校信息")
 public class School implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("学校 ID")
+  @ApiModelProperty(value = "学校 ID",example = "1")
   private Integer id;
   @ApiModelProperty("学校 Logo")
   private String logo;

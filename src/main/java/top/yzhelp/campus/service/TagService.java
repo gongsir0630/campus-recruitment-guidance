@@ -3,6 +3,8 @@ package top.yzhelp.campus.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.other.Tag;
 
+import java.util.List;
+
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/8 15:55
@@ -10,4 +12,17 @@ import top.yzhelp.campus.model.other.Tag;
  * @description 小程序标签接口
  */
 public interface TagService extends IService<Tag> {
+  /**
+   * 根据 id 列表获取标签名称列表
+   * @param ids id 列表(eg: 1,2,3)
+   * @return List<String>
+   */
+  List<String> getTagNameListByIds(String ids);
+
+  /**
+   * 根据 type 获取标签列表
+   * @param type 标签类型
+   * @return 标签列表
+   */
+  List<Tag> getTagListByType(String type);
 }

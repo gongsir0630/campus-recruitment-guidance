@@ -10,4 +10,25 @@ import top.yzhelp.campus.model.other.Content;
  * @description 内容管理(发布,点赞,收藏)接口
  */
 public interface ContentService extends IService<Content> {
+  /**
+   * 获取用户自己的内容动态
+   * @param openId 用户 id
+   * @return 内容动态
+   */
+  Content getMyContent(String openId);
+
+  /**
+   * 删除某条动态点赞
+   * @param openid 用户
+   * @param id 动态 id
+   */
+  void deleteIdFromLikes(String openid, int id);
+
+
+  /**
+   * 移除收藏
+   * @param openid 用户
+   * @param id 动态 id
+   */
+  void deleteIdFromCollections(String openid, int id);
 }

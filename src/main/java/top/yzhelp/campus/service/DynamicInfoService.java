@@ -13,11 +13,43 @@ import top.yzhelp.campus.model.dt.DynamicInfo;
 public interface DynamicInfoService extends IService<DynamicInfo> {
   /**
    * 获取所有动态列表
-   * @param page 当前页码
+   * @param cur 当前页码
    * @param size 每页显示数量
-   * @param keyword 待检索关键字
-   * @param topicTags 话题标签 Ids
    * @return IPage
    */
-  IPage<DynamicInfo> getAllDtInfoList(int page, int size, String keyword, String topicTags);
+  IPage<DynamicInfo> getAllDtInfoList(int cur, int size);
+
+  /**
+   * 点赞动态
+   * @param id 动态 id
+   * @param openId 用户
+   */
+  void likeById(int id, String openId);
+
+  /**
+   * 动态详情
+   * @param id 动态 id
+   * @return 动态详情
+   */
+  DynamicInfo getDtDetailById(int id);
+
+  /**
+   * 收藏
+   * @param id 动态 id
+   * @param openId 用户
+   */
+  void collection(int id, String openId);
+
+  /**
+   * 删除动态
+   * @param id 动态 id
+   */
+  void deleteDtById(int id);
+
+  /**
+   * 发布 | 更新
+   * @param info 动态信息
+   * @return 动态详情
+   */
+  DynamicInfo saveOrUpdateDt(DynamicInfo info);
 }

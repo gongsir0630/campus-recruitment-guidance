@@ -22,7 +22,7 @@ import java.util.Date;
 @ApiModel("公告信息")
 public class Notice implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("公告 ID")
+  @ApiModelProperty(value = "公告 ID",example = "1")
   private Integer id;
   @ApiModelProperty("公告标题")
   private String title;

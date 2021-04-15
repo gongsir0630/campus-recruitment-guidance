@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
 import top.yzhelp.campus.model.yh.EduInfo;
@@ -22,7 +19,6 @@ import top.yzhelp.campus.service.WxUserService;
 import top.yzhelp.campus.shiro.ShiroRealm;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -73,7 +69,7 @@ public class UserController {
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("userInfo",newUser);
     data.put("eduInfo",eduInfoService.getEduInfoById(newUser.getEduId()));
-    data.put("jobInfo",jobInfoService.getEduInfoById(newUser.getJobId()));
+    data.put("jobInfo",jobInfoService.getJobInfoById(newUser.getJobId()));
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
@@ -100,7 +96,7 @@ public class UserController {
     Map<String, String> loginMap = userService.login(code);
     boolean canLogin = Boolean.parseBoolean(loginMap.get("canLogin"));
     String token = loginMap.get("token");
-    Map<String,Object> data = new HashMap<>();
+    Map<String,Object> data = MapUtil.newHashMap();
     data.put("token",token);
     data.put("canLogin",canLogin);
     log.info("--->>>返回认证信息:[{}]", data.toString());
@@ -108,18 +104,6 @@ public class UserController {
       // todo: 用户不存在,提示用户注册
       return new ResponseEntity<>(Result.fail(CodeMsg.NO_USER,data),HttpStatus.OK);
     }
-    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
-  }
-
-  /**
-   * 使用 RequiresAuthentication 注解, 需要验证才能访问
-   * @return userId
-   */
-  @GetMapping("/hello")
-  @RequiresRoles("wx")
-  public ResponseEntity<Result<Map<String,String>>> requireAuth() {
-    Map<String,String> data = MapUtil.newHashMap();
-    data.put("hello",getOpenId());
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 }

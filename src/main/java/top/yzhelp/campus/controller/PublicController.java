@@ -9,17 +9,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.model.other.RotatePicture;
+import top.yzhelp.campus.model.other.Tag;
+import top.yzhelp.campus.service.RotatePictureService;
+import top.yzhelp.campus.service.TagService;
 import top.yzhelp.campus.shiro.ShiroRealm;
 import top.yzhelp.campus.util.QiNiuUtil;
 
+import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,8 +41,39 @@ public class PublicController {
   @Value("${spring.application.name}")
   private String appName;
 
+  @Resource
+  private RotatePictureService pictureService;
+  @Resource
+  private TagService tagService;
+
   public String getOpenId() {
     return ShiroRealm.getShiroAccount().getAuthName();
+  }
+
+  @GetMapping("/tags/{type}")
+  @ApiOperation("根据标签类型获取标签列表")
+  public ResponseEntity<Result<?>> tagList(@PathVariable Integer type) {
+    type = type == null ? 0 : type;
+    List<Tag> tags = this.tagService.getTagListByType(Tag.TAG_TYPE.get(type));
+    return new ResponseEntity<>(Result.success(tags),HttpStatus.OK);
+  }
+  /**
+   * 轮播图接口
+   * @param type 轮播图类型
+   * @return 轮播图列表
+   */
+  @GetMapping(path = "/banner/{type}")
+  @ApiOperation("小程序获取轮播图")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "type",value = "轮播图类型: 0,1,2,3 分别代表 \"首页\",\"内推-岗位订阅\",\"内推-show\",\"柚子帮入口\"",required = true),
+  })
+  @ApiResponses({
+    @ApiResponse(code = 200,message = "接口调用成功")
+  })
+  public ResponseEntity<Result<?>> getBanners(@PathVariable("type") String type) {
+    type = !StrUtil.isBlank(type) ? RotatePicture.ROTATE_TYPE.get(Integer.parseInt(type)) : RotatePicture.ROTATE_TYPE.get(0);
+    List<RotatePicture> banners = this.pictureService.getBannersByMiniApp(type);
+    return new ResponseEntity<>(Result.success(banners),HttpStatus.OK);
   }
 
   /**
@@ -71,6 +106,6 @@ public class PublicController {
     } catch (IOException e) {
       log.error("--->>>文件转换出错:{}",e.getMessage());
     }
-    return new ResponseEntity<>(Result.fail(CodeMsg.FIE_UPLOAD_ERROR,null), HttpStatus.OK);
+    return new ResponseEntity<>(Result.fail(CodeMsg.FILE_UPLOAD_ERROR,null), HttpStatus.OK);
   }
 }

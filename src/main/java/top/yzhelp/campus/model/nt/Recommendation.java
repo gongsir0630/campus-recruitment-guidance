@@ -22,7 +22,7 @@ import java.util.Date;
 @ApiModel("内推信息")
 public class Recommendation implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("内推 ID")
+  @ApiModelProperty(value = "内推 ID",example = "1")
   private Integer id;
   @ApiModelProperty("用户 ID")
   private String openId;

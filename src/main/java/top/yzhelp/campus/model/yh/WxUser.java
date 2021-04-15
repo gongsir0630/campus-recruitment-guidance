@@ -34,9 +34,9 @@ public class WxUser implements Serializable {
   private String phoneNumber;
   @ApiModelProperty("邮箱")
   private String email;
-  @ApiModelProperty("教育信息 ID")
+  @ApiModelProperty(value = "教育信息 ID",example = "1")
   private Integer eduId;
-  @ApiModelProperty("工作信息 ID")
+  @ApiModelProperty(value = "工作信息 ID",example = "1")
   private Integer jobId;
   @ApiModelProperty("个人简介")
   private String profile;

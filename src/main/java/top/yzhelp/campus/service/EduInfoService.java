@@ -2,6 +2,7 @@ package top.yzhelp.campus.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.yh.EduInfo;
+import top.yzhelp.campus.model.yh.JobInfo;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -23,5 +24,12 @@ public interface EduInfoService extends IService<EduInfo> {
    * @return 教育信息
    */
   EduInfo getEduInfoById(int id);
+
+  /**
+   * 根据 openId 获取教育信息
+   * @param openId openId
+   * @return 最新教育信息
+   */
+  EduInfo getEduInfoByOpenId(String openId);
 
 }

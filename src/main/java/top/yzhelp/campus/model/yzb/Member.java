@@ -22,27 +22,29 @@ import java.util.Date;
 @ApiModel("柚子帮成员信息")
 public class Member implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("成员 ID,自增")
+  @ApiModelProperty(value = "成员 ID,自增",example = "1")
   private Integer id;
   @ApiModelProperty("用户 ID")
   private String openId;
-  @ApiModelProperty("当前状态")
+  @ApiModelProperty("当前状态:从可选状态选择")
   private String currentState;
-  @ApiModelProperty("头像")
+  @ApiModelProperty("头衔:学生工作职务等")
   private String title;
-  @ApiModelProperty("领域标签")
+  @ApiModelProperty("领域标签id,从领域标签选择,多个id以逗号分隔")
   private String fieldTags;
   @ApiModelProperty("成员介绍")
   private String introduction;
   @ApiModelProperty("擅长话题")
   private String topics;
-  @ApiModelProperty("真实头像")
+  @ApiModelProperty("真实头像:先调用 upload 接口获取 url")
   private String avatar;
-  @ApiModelProperty("认证状态")
+  @ApiModelProperty("认证状态:需要审核")
   private String certificationStatus;
   @ApiModelProperty("申请时间")
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date applyTime;
   @ApiModelProperty("点赞")
   private String likeList;
+  @ApiModelProperty(value = "点赞人数",example = "1")
+  private Integer likeCount;
 }

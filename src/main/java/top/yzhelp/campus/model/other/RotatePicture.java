@@ -1,5 +1,8 @@
 package top.yzhelp.campus.model.other;
 
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.lang.Pair;
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,6 +11,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -20,7 +25,7 @@ import java.io.Serializable;
 @ApiModel("轮播图")
 public class RotatePicture implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("搜索ID,自增")
+  @ApiModelProperty(value = "图片 ID,自增",example = "1")
   private String id;
   @ApiModelProperty("类型")
   private String rotateType;
@@ -28,4 +33,8 @@ public class RotatePicture implements Serializable {
   private String picUrl;
   @ApiModelProperty("跳转链接")
   private String toLink;
+  /**
+   * 轮播图类型: 0,1,2,3 分别代表 "首页","内推-岗位订阅","内推-show","柚子帮入口"
+   */
+  public static final List<String> ROTATE_TYPE = Arrays.asList("首页","内推-岗位订阅","内推-show","柚子帮入口");
 }

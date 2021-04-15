@@ -1,5 +1,6 @@
 package top.yzhelp.campus.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,16 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
   @Override
   public EduInfo getEduInfoById(int id) {
     return this.getById(id);
+  }
+
+  /**
+   * 根据 openId 获取教育信息
+   *
+   * @param openId openId
+   * @return 最新教育信息
+   */
+  @Override
+  public EduInfo getEduInfoByOpenId(String openId) {
+    return this.getOne(new QueryWrapper<EduInfo>().eq("open_id",openId));
   }
 }

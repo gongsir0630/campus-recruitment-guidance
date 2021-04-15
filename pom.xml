@@ -16,6 +16,11 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
+    </dependency>
     <!-- 七牛云 java-sdk -->
     <dependency>
       <groupId>com.qiniu</groupId>

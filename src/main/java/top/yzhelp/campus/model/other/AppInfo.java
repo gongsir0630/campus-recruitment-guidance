@@ -20,7 +20,7 @@ import java.io.Serializable;
 @ApiModel("小程序信息")
 public class AppInfo implements Serializable {
   @TableId(type = IdType.AUTO)
-  @ApiModelProperty("主键 Id,自增")
+  @ApiModelProperty(value = "主键 Id,自增",example = "1")
   private Integer id;
   @ApiModelProperty("关于产品")
   private String about;

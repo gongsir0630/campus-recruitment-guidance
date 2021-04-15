@@ -1,5 +1,6 @@
 package top.yzhelp.campus.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.JobInfoMapper;
@@ -23,7 +24,7 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
   @Override
   public JobInfo saveOrUpdateJobInfo(JobInfo jobInfo) {
     this.saveOrUpdate(jobInfo);
-    return this.getEduInfoById(jobInfo.getId());
+    return this.getJobInfoById(jobInfo.getId());
   }
 
   /**
@@ -33,7 +34,18 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
    * @return 最新工作信息
    */
   @Override
-  public JobInfo getEduInfoById(int id) {
+  public JobInfo getJobInfoById(int id) {
     return this.getById(id);
+  }
+
+  /**
+   * 根据 openId 获取工作信息
+   *
+   * @param openId openId
+   * @return 最新工作信息
+   */
+  @Override
+  public JobInfo getJobInfoByOpenId(String openId) {
+    return this.getOne(new QueryWrapper<JobInfo>().eq("open_id",openId));
   }
 }

@@ -19,9 +19,7 @@ import java.io.Serializable;
 @TableName("content")
 @ApiModel("内容管理信息")
 public class Content implements Serializable {
-  @TableId(type = IdType.AUTO)
-  @ApiModelProperty("id,自增")
-  private Integer id;
+  @TableId(type = IdType.INPUT)
   @ApiModelProperty("用户 ID")
   private String openId;
   @ApiModelProperty("发布的动态 Ids")
