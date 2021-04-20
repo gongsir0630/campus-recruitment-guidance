@@ -104,6 +104,7 @@ public class UserController {
       // todo: 用户不存在,提示用户注册
       return new ResponseEntity<>(Result.fail(CodeMsg.NO_USER,data),HttpStatus.OK);
     }
+    data.put("userInfo",this.userService.getUserInfo(getOpenId()));
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 }
