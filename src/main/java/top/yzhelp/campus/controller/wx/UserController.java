@@ -1,6 +1,8 @@
 package top.yzhelp.campus.controller.wx;
 
 import cn.hutool.core.map.MapUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import top.yzhelp.campus.service.EduInfoService;
 import top.yzhelp.campus.service.JobInfoService;
 import top.yzhelp.campus.service.WxUserService;
 import top.yzhelp.campus.shiro.ShiroRealm;
+import top.yzhelp.campus.util.JwtUtil;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -39,6 +42,8 @@ public class UserController {
   private EduInfoService eduInfoService;
   @Resource
   private JobInfoService jobInfoService;
+  @Resource
+  private JwtUtil jwtUtil;
 
   /**
    * 从认证信息中获取用户 openId
@@ -49,11 +54,9 @@ public class UserController {
   }
 
   /**
-   *
-   * @param wxUser 小程序用户基本信息
-   * @param eduInfo 教育信息
-   * @param jobInfo 工作信息
-   * @return 注册信息
+   * 用户信息注册或更新
+   * @param json 用户信息
+   * @return
    */
   @PostMapping("/registry")
   @ApiOperation("小程序用户注册或者用户信息更新接口")
@@ -62,9 +65,17 @@ public class UserController {
     @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
   })
   @RequiresRoles("wx")
-  public ResponseEntity<Result<Map<String,Object>>> registry(WxUser wxUser,
-                                                             EduInfo eduInfo,
-                                                             JobInfo jobInfo) {
+  public ResponseEntity<Result<Map<String,Object>>> registry(@RequestBody String json) {
+    JSONObject jsonObject = JSON.parseObject(json);
+    WxUser wxUser = jsonObject.getObject("wxUser", WxUser.class);
+    wxUser.setOpenId(getOpenId());
+    EduInfo eduInfo = jsonObject.getObject("eduInfo", EduInfo.class);
+    eduInfo.setOpenId(getOpenId());
+    JobInfo jobInfo = jsonObject.getObject("jobInfo", JobInfo.class);
+    jobInfo.setOpenId(getOpenId());
+    System.out.println(wxUser);
+    System.out.println(eduInfo);
+    System.out.println(jobInfo);
     WxUser newUser = this.userService.saveOrUpdateUser(wxUser, eduInfo, jobInfo);
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("userInfo",newUser);
@@ -104,7 +115,7 @@ public class UserController {
       // todo: 用户不存在,提示用户注册
       return new ResponseEntity<>(Result.fail(CodeMsg.NO_USER,data),HttpStatus.OK);
     }
-    data.put("userInfo",this.userService.getUserInfo(getOpenId()));
+    data.put("userInfo",this.userService.getUserInfo(jwtUtil.getAuthName(token)));
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 }
