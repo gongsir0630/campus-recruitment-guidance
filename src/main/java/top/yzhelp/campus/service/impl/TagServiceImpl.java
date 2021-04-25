@@ -2,9 +2,11 @@ package top.yzhelp.campus.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.TagMapper;
+import top.yzhelp.campus.model.other.RotatePicture;
 import top.yzhelp.campus.model.other.Tag;
 import top.yzhelp.campus.service.TagService;
 
@@ -41,5 +43,15 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
   @Override
   public List<Tag> getTagListByType(String type) {
     return this.list(new LambdaQueryWrapper<Tag>().eq(Tag::getTagType,type));
+  }
+
+  /**
+   * 获取所有标签数据
+   *
+   * @return tags
+   */
+  @Override
+  public IPage<Tag> getAllTags() {
+    return this.page(null,new LambdaQueryWrapper<Tag>().orderByDesc(Tag::getId));
   }
 }

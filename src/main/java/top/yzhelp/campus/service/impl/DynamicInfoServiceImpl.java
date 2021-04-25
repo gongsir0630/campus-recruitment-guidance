@@ -39,7 +39,9 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
    */
   @Override
   public IPage<DynamicInfo> getAllDtInfoList(int cur, int size) {
-    return this.page(new Page<>(cur,size),new QueryWrapper<DynamicInfo>().orderByDesc("id"));
+    Page<DynamicInfo> page = new Page<>(cur, size);
+    page = cur==-1 ? null : page;
+    return this.page(page,new QueryWrapper<DynamicInfo>().orderByDesc("id"));
   }
 
   /**

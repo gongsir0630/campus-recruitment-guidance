@@ -1,4 +1,4 @@
-package top.yzhelp.campus.controller.wx;
+package top.yzhelp.campus.controller.wx.index;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.*;

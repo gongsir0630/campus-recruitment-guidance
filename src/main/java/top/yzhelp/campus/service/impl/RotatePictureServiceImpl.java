@@ -1,6 +1,8 @@
 package top.yzhelp.campus.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.RotatePictureMapper;
@@ -26,5 +28,25 @@ public class RotatePictureServiceImpl extends ServiceImpl<RotatePictureMapper,Ro
   @Override
   public List<RotatePicture> getBannersByMiniApp(String rotateType) {
     return this.list(new QueryWrapper<RotatePicture>().eq("rotate_type",rotateType));
+  }
+
+  /**
+   * 获取所有数据
+   *
+   * @return 轮播图
+   */
+  @Override
+  public IPage<RotatePicture> getAllPics() {
+    return this.page(null,new LambdaQueryWrapper<RotatePicture>().orderByDesc(RotatePicture::getId));
+  }
+
+  /**
+   * 更新
+   *
+   * @param picture 图片信息
+   */
+  @Override
+  public void updatePictureById(RotatePicture picture) {
+    this.updateById(picture);
   }
 }

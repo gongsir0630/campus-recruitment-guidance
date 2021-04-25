@@ -3,6 +3,7 @@ package top.yzhelp.campus.model.admin;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class AdminUser implements Serializable {
   @ApiModelProperty("用户账号 ID")
   private String userId;
   @ApiModelProperty("用户密码")
+  @JsonIgnore
   private String password;
   @ApiModelProperty("昵称")
   private String nickName;

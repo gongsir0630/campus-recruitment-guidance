@@ -69,6 +69,11 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
    */
   @Override
   public WxUser saveOrUpdateUser(WxUser user, EduInfo eduInfo, JobInfo jobInfo) {
+    WxUser userInfo = this.getUserInfo(user.getOpenId());
+    if (null != userInfo) {
+      eduInfo.setId(userInfo.getEduId());
+      jobInfo.setId(userInfo.getJobId());
+    }
     // todo: 保存教育信息
     Integer eduId = eduInfoService.saveOrUpdateEduInfo(eduInfo).getId();
     // todo: 保存工作信息

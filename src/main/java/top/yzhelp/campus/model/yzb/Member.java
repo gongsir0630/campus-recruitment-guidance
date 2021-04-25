@@ -37,7 +37,7 @@ public class Member implements Serializable {
   @ApiModelProperty("擅长话题")
   private String topics;
   @ApiModelProperty("真实头像:先调用 upload 接口获取 url")
-  private String avatar;
+  private String photo;
   @ApiModelProperty("认证状态:需要审核")
   private String certificationStatus;
   @ApiModelProperty("申请时间")

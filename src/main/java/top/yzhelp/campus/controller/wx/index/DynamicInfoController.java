@@ -1,5 +1,6 @@
-package top.yzhelp.campus.controller.wx;
+package top.yzhelp.campus.controller.wx.index;
 
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import top.yzhelp.campus.shiro.ShiroRealm;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -103,10 +105,22 @@ public class DynamicInfoController {
     records.forEach(dt -> {
       // todo: 获取发布人信息
       WxUser userInfo = this.userService.getUserInfo(dt.getOpenId());
-      DynamicResponse response = new DynamicResponse(userInfo, dt);
-      // todo: 根据 id 查询标签名称
+      // 转换话题标签列表
       List<String> tags = tagService.getTagNameListByIds(dt.getTopicTags());
-      response.setTopTags(tags);
+      dt.setTopicTags(String.join(",",tags));
+      // 转换点赞列表: id -> nickName
+      List<String> openIds = ListUtil.toList(dt.getLikeList().split(","));
+      LinkedList<String> likeList2NameList = new LinkedList<>();
+      openIds.forEach(openId -> {
+        likeList2NameList.add(this.userService.getUserInfo(openId).getNickName());
+      });
+      // 如果当前用户已经点赞,则将该用户移至列表开头
+      if (openIds.contains(getOpenId())) {
+        likeList2NameList.removeIf(id->id.equals(getOpenId()));
+        likeList2NameList.addFirst(this.userService.getUserInfo(getOpenId()).getNickName());
+      }
+      dt.setLikeList(String.join(",",likeList2NameList));
+      DynamicResponse response = new DynamicResponse(userInfo, dt);
       // todo: 设置工作认证信息
       JobInfo job = jobInfoService.getJobInfoByOpenId(userInfo.getOpenId());
       if (job == null || !Boolean.parseBoolean(job.getStatus())) {

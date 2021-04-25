@@ -1,5 +1,6 @@
 package top.yzhelp.campus.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +40,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
   @Override
   public IPage<Notice> getAllNotices(long cur, long size) {
     IPage<Notice> page = new Page<>(cur,size);
-    return this.page(page, new QueryWrapper<Notice>().orderByDesc("id"));
+    if (cur==-1) {
+      page = null;
+    }
+    return this.page(page,new LambdaQueryWrapper<Notice>().orderByDesc(Notice::getId));
   }
 
   /**
@@ -51,5 +55,15 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
   @Override
   public Notice getNoticeDetailById(int id) {
     return this.getById(id);
+  }
+
+  /**
+   * 更新公告信息
+   *
+   * @param notice 公告信息
+   */
+  @Override
+  public void updateNoticeById(Notice notice) {
+    this.updateById(notice);
   }
 }

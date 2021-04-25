@@ -1,5 +1,6 @@
 package top.yzhelp.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.other.RotatePicture;
 
@@ -18,4 +19,16 @@ public interface RotatePictureService extends IService<RotatePicture> {
    * @return 轮播图列表
    */
   List<RotatePicture> getBannersByMiniApp(String rotateType);
+
+  /**
+   * 获取所有数据
+   * @return 轮播图
+   */
+  IPage<RotatePicture> getAllPics();
+
+  /**
+   * 更新
+   * @param picture 图片信息
+   */
+  void updatePictureById(RotatePicture picture);
 }

@@ -1,5 +1,6 @@
 package top.yzhelp.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.other.Tag;
 
@@ -25,4 +26,10 @@ public interface TagService extends IService<Tag> {
    * @return 标签列表
    */
   List<Tag> getTagListByType(String type);
+
+  /**
+   * 获取所有标签数据
+   * @return tags
+   */
+  IPage<Tag> getAllTags();
 }

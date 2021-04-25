@@ -1,4 +1,4 @@
-package top.yzhelp.campus.controller.wx;
+package top.yzhelp.campus.controller.wx.me;
 
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
@@ -54,9 +54,36 @@ public class UserController {
   }
 
   /**
+   * 获取可选学校列表
+   */
+  @PostMapping("/school")
+  @ApiOperation("获取可选学校列表")
+  @ApiResponses({
+    @ApiResponse(code = 200,message = "接口调用成功"),
+    @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
+  })
+  public ResponseEntity<Result<?>> getSchoolList() {
+    // TODO: 获取可选学校列表
+    return null;
+  }
+
+  /**
+   * 获取可选公司列表
+   */
+  @PostMapping("/company")
+  @ApiOperation("获取可选公司列表")
+  @ApiResponses({
+    @ApiResponse(code = 200,message = "接口调用成功"),
+    @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
+  })
+  public ResponseEntity<Result<?>> getCompanyList() {
+    // TODO: 获取可选公司列表
+    return null;
+  }
+
+  /**
    * 用户信息注册或更新
    * @param json 用户信息
-   * @return
    */
   @PostMapping("/registry")
   @ApiOperation("小程序用户注册或者用户信息更新接口")
@@ -81,6 +108,7 @@ public class UserController {
     data.put("userInfo",newUser);
     data.put("eduInfo",eduInfoService.getEduInfoById(newUser.getEduId()));
     data.put("jobInfo",jobInfoService.getJobInfoById(newUser.getJobId()));
+    data.put("curStatus","工作");
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 

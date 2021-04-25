@@ -1,4 +1,4 @@
-package top.yzhelp.campus.controller.wx;
+package top.yzhelp.campus.controller.wx.help;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

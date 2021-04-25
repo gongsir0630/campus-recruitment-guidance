@@ -30,12 +30,12 @@ public class DynamicResponse implements Serializable {
   private String jobTitle;
   @ApiModelProperty("专业信息")
   private String major;
-  @ApiModelProperty("该动态的话题标签")
-  private List<String> topTags;
   @ApiModelProperty("该动态的点赞数")
   private Integer likeCount;
   @ApiModelProperty("收藏状态")
   private Boolean collection;
+  @ApiModelProperty("动态详情")
+  private DynamicInfo detail;
 
   /**
    * 构造方法
@@ -47,5 +47,6 @@ public class DynamicResponse implements Serializable {
     this.nickName = user.getNickName();
     this.likeCount = dynamicInfo.getLikeList().split(",").length;
     this.collection = dynamicInfo.getCollectionList().contains(user.getOpenId());
+    this.detail = dynamicInfo;
   }
 }

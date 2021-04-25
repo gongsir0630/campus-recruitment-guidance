@@ -32,6 +32,8 @@ public class Content implements Serializable {
   private String publishRecommendations;
   @ApiModelProperty("点赞的内推 Ids")
   private String likeRecommendations;
-  @ApiModelProperty("点赞成员 Ids")
-  private String likeMembers;
+  @ApiModelProperty("关注我的 Ids")
+  private String followMe;
+  @ApiModelProperty("我关注的 Ids")
+  private String myFollow;
 }

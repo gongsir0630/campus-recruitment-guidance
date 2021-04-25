@@ -33,4 +33,10 @@ public interface NoticeService extends IService<Notice> {
    * @return 详情
    */
   Notice getNoticeDetailById(int id);
+
+  /**
+   * 更新公告信息
+   * @param notice 公告信息
+   */
+  void updateNoticeById(Notice notice);
 }
