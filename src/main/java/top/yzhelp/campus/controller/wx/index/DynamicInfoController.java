@@ -90,15 +90,12 @@ public class DynamicInfoController {
 
   /**
    * 小程序首页动态显示
-   * @param cur 当前页
-   * @param size 每页数量
    * @return data
    */
   @GetMapping("/all")
   @ApiOperation("动态列表")
-  public ResponseEntity<Result<?>> getAllDynamicInfo(@RequestParam(defaultValue = "1") int cur,
-                                                     @RequestParam(defaultValue = "10") int size) {
-    IPage<DynamicInfo> allDtInfoList = this.dynamicInfoService.getAllDtInfoList(cur, size);
+  public ResponseEntity<Result<?>> getAllDynamicInfo() {
+    IPage<DynamicInfo> allDtInfoList = this.dynamicInfoService.getAllDtInfoList(-1L, -1L);
     List<DynamicInfo> records = allDtInfoList.getRecords();
     List<DynamicResponse> data = new ArrayList<>();
     // 对信息进行进一步处理

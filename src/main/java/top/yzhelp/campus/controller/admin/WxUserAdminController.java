@@ -2,15 +2,18 @@ package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
-import top.yzhelp.campus.model.dt.Notice;
-import top.yzhelp.campus.service.NoticeService;
+import top.yzhelp.campus.model.yh.WxUser;
+import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,32 +26,32 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-@RequestMapping("admin/notice")
-@Api(tags = "ADMIN-公告管理接口")
+@RequestMapping("admin/wx")
+@Api(tags = "ADMIN-小程序用户信息管理接口")
 @RequiresRoles("admin")
-public class NoticeAdminController {
+public class WxUserAdminController {
 
   @Resource
-  private NoticeService noticeService;
+  private WxUserService wxUserService;
 
   /**
-   * 获取所有公告
-   * @return 所有公告列表
+   * 获取所有小程序用户信息
+   * @return 所有小程序用户信息列表
    */
   @GetMapping(path = "/list")
-  @ApiOperation("获取所有公告")
+  @ApiOperation("获取所有小程序用户信息")
   @ApiResponses({
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<Notice> allNotices = this.noticeService.getAllNotices(-1L, -1L);
-    return new ResponseEntity<>(Result.success(allNotices), HttpStatus.OK);
+    IPage<WxUser> data = this.wxUserService.page(null);
+    return new ResponseEntity<>(Result.success(data), HttpStatus.OK);
   }
 
   @ApiOperation("更新信息")
   @PostMapping
-  public ResponseEntity<Result<?>> update(Notice notice) {
-    this.noticeService.updateNoticeById(notice);
+  public ResponseEntity<Result<?>> update(WxUser user) {
+    this.wxUserService.updateById(user);
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
   }
 
@@ -56,7 +59,7 @@ public class NoticeAdminController {
   @DeleteMapping
   public ResponseEntity<Result<?>> delete(String ids) {
     List<String> idList = ListUtil.toList(ids.split(","));
-    this.noticeService.removeByIds(idList);
+    this.wxUserService.removeByIds(idList);
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
   }
 }

@@ -3,6 +3,7 @@ package top.yzhelp.campus.controller.wx.me;
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
-import top.yzhelp.campus.model.yh.EduInfo;
-import top.yzhelp.campus.model.yh.JobInfo;
-import top.yzhelp.campus.model.yh.WxUser;
-import top.yzhelp.campus.service.EduInfoService;
-import top.yzhelp.campus.service.JobInfoService;
-import top.yzhelp.campus.service.WxUserService;
+import top.yzhelp.campus.model.yh.*;
+import top.yzhelp.campus.service.*;
 import top.yzhelp.campus.shiro.ShiroRealm;
 import top.yzhelp.campus.util.JwtUtil;
 
@@ -45,6 +42,11 @@ public class UserController {
   @Resource
   private JwtUtil jwtUtil;
 
+  @Resource
+  private SchoolService schoolService;
+  @Resource
+  private CompanyService companyService;
+
   /**
    * 从认证信息中获取用户 openId
    * @return openId
@@ -58,13 +60,10 @@ public class UserController {
    */
   @PostMapping("/school")
   @ApiOperation("获取可选学校列表")
-  @ApiResponses({
-    @ApiResponse(code = 200,message = "接口调用成功"),
-    @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
-  })
   public ResponseEntity<Result<?>> getSchoolList() {
-    // TODO: 获取可选学校列表
-    return null;
+    // ok: 获取可选学校列表
+    IPage<School> data = this.schoolService.page(null);
+    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
   /**
@@ -72,13 +71,10 @@ public class UserController {
    */
   @PostMapping("/company")
   @ApiOperation("获取可选公司列表")
-  @ApiResponses({
-    @ApiResponse(code = 200,message = "接口调用成功"),
-    @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
-  })
   public ResponseEntity<Result<?>> getCompanyList() {
-    // TODO: 获取可选公司列表
-    return null;
+    // ok: 获取可选公司列表
+    IPage<Company> data = this.companyService.page(null);
+    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
   /**
@@ -87,10 +83,6 @@ public class UserController {
    */
   @PostMapping("/registry")
   @ApiOperation("小程序用户注册或者用户信息更新接口")
-  @ApiResponses({
-    @ApiResponse(code = 200,message = "接口调用成功"),
-    @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
-  })
   @RequiresRoles("wx")
   public ResponseEntity<Result<Map<String,Object>>> registry(@RequestBody String json) {
     JSONObject jsonObject = JSON.parseObject(json);
@@ -140,7 +132,7 @@ public class UserController {
     data.put("canLogin",canLogin);
     log.info("--->>>返回认证信息:[{}]", data.toString());
     if (!canLogin) {
-      // todo: 用户不存在,提示用户注册
+      // ok: 用户不存在,提示用户注册
       return new ResponseEntity<>(Result.fail(CodeMsg.NO_USER,data),HttpStatus.OK);
     }
     data.put("userInfo",this.userService.getUserInfo(jwtUtil.getAuthName(token)));

@@ -30,24 +30,14 @@ public class NoticeController {
   private NoticeService noticeService;
 
   /**
-   * 小程序获取所有公告,支持分页
-   * @param cur 当前页
-   * @param size 每页数量
+   * 小程序获取所有公告
    * @return 所有公告列表
    */
   @GetMapping(path = "/all")
-  @ApiOperation("小程序获取所有公告,支持分页")
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "cur",value = "当前页,默认1",required = false),
-    @ApiImplicitParam(name = "size",value = "每页数量,默认5",required = false)
-  })
-  @ApiResponses({
-    @ApiResponse(code = 200,message = "接口调用成功")
-  })
+  @ApiOperation("小程序获取所有公告")
   @RequiresRoles("wx")
-  public ResponseEntity<Result<?>> getAllNotices(@RequestParam(value = "cur",defaultValue = "1") long cur,
-                                                 @RequestParam(value = "size",defaultValue = "5") long size) {
-    IPage<Notice> allNotices = this.noticeService.getAllNotices(cur, size);
+  public ResponseEntity<Result<?>> getAllNotices() {
+    IPage<Notice> allNotices = this.noticeService.getAllNotices(-1,-1);
     return new ResponseEntity<>(Result.success(allNotices), HttpStatus.OK);
   }
 

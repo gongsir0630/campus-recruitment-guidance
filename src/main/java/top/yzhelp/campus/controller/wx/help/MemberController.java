@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.controller.wx.vo.MemberApplyResponse;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.JobInfo;
@@ -86,6 +87,7 @@ public class MemberController {
   @ApiOperation("柚子帮成员申请")
   public ResponseEntity<Result<?>> apply(Member member) {
     member.setOpenId(getOpenId());
+    member.setCertificationStatus(Constants.CET_STATUS.get(1));
     Member newMember = this.memberService.saveOrUpdateMember(member);
     return new ResponseEntity<>(Result.success(newMember),HttpStatus.OK);
   }

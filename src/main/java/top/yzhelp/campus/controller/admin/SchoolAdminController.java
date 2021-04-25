@@ -1,16 +1,20 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
-import top.yzhelp.campus.model.dt.Notice;
-import top.yzhelp.campus.service.NoticeService;
+import top.yzhelp.campus.model.yh.School;
+import top.yzhelp.campus.service.SchoolService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,32 +27,39 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-@RequestMapping("admin/notice")
-@Api(tags = "ADMIN-公告管理接口")
+@RequestMapping("admin/school")
+@Api(tags = "ADMIN-学校信息管理接口")
 @RequiresRoles("admin")
-public class NoticeAdminController {
+public class SchoolAdminController {
 
   @Resource
-  private NoticeService noticeService;
+  private SchoolService schoolService;
+
+  @PutMapping
+  public ResponseEntity<Result<?>> add(School school) {
+    this.schoolService.save(school);
+    return new ResponseEntity<>(Result.success(null), HttpStatus.OK);
+  }
 
   /**
-   * 获取所有公告
-   * @return 所有公告列表
+   * 获取所有学校信息
+   * @return 所有学校信息列表
    */
   @GetMapping(path = "/list")
-  @ApiOperation("获取所有公告")
+  @ApiOperation("获取所有学校信息")
   @ApiResponses({
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<Notice> allNotices = this.noticeService.getAllNotices(-1L, -1L);
-    return new ResponseEntity<>(Result.success(allNotices), HttpStatus.OK);
+    IPage<School> allSchools = this.schoolService.page(null,
+      new LambdaQueryWrapper<School>().orderByDesc(School::getId));
+    return new ResponseEntity<>(Result.success(allSchools), HttpStatus.OK);
   }
 
   @ApiOperation("更新信息")
   @PostMapping
-  public ResponseEntity<Result<?>> update(Notice notice) {
-    this.noticeService.updateNoticeById(notice);
+  public ResponseEntity<Result<?>> update(School tag) {
+    this.schoolService.updateById(tag);
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
   }
 
@@ -56,7 +67,7 @@ public class NoticeAdminController {
   @DeleteMapping
   public ResponseEntity<Result<?>> delete(String ids) {
     List<String> idList = ListUtil.toList(ids.split(","));
-    this.noticeService.removeByIds(idList);
+    this.schoolService.removeByIds(idList);
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
   }
 }

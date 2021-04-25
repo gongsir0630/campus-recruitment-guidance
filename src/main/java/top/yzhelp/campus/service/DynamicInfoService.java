@@ -17,7 +17,7 @@ public interface DynamicInfoService extends IService<DynamicInfo> {
    * @param size 每页显示数量
    * @return IPage
    */
-  IPage<DynamicInfo> getAllDtInfoList(int cur, int size);
+  IPage<DynamicInfo> getAllDtInfoList(long cur, long size);
 
   /**
    * 点赞动态

@@ -2,7 +2,10 @@ package top.yzhelp.campus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 import top.yzhelp.campus.model.yzb.Member;
+
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>

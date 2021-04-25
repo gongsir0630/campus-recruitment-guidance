@@ -28,8 +28,4 @@ public class Tag implements Serializable {
   private String tagType;
   @ApiModelProperty("标签名称")
   private String tagName;
-  /**
-   * 标签类型: 0,1,2 分别代表 "话题标签","职位标签","领域标签"
-   */
-  public static final List<String> TAG_TYPE = Arrays.asList("话题标签","职位标签","领域标签");
 }

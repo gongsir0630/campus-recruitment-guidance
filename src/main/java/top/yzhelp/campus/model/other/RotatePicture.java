@@ -33,8 +33,4 @@ public class RotatePicture implements Serializable {
   private String picUrl;
   @ApiModelProperty("跳转链接")
   private String toLink;
-  /**
-   * 轮播图类型: 0,1,2,3 分别代表 "首页","内推-岗位订阅","内推-show","柚子帮入口"
-   */
-  public static final List<String> ROTATE_TYPE = Arrays.asList("首页","内推-岗位订阅","内推-show","柚子帮入口");
 }

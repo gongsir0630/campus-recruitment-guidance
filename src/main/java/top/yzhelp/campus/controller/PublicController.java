@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.other.RotatePicture;
 import top.yzhelp.campus.model.other.Tag;
 import top.yzhelp.campus.service.RotatePictureService;
@@ -54,7 +55,7 @@ public class PublicController {
   @ApiOperation("根据标签类型获取标签列表")
   public ResponseEntity<Result<?>> tagList(@PathVariable Integer type) {
     type = type == null ? 0 : type;
-    List<Tag> tags = this.tagService.getTagListByType(Tag.TAG_TYPE.get(type));
+    List<Tag> tags = this.tagService.getTagListByType(Constants.TAG_TYPE.get(type));
     return new ResponseEntity<>(Result.success(tags),HttpStatus.OK);
   }
   /**
@@ -71,7 +72,7 @@ public class PublicController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> getBanners(@PathVariable("type") String type) {
-    type = !StrUtil.isBlank(type) ? RotatePicture.ROTATE_TYPE.get(Integer.parseInt(type)) : RotatePicture.ROTATE_TYPE.get(0);
+    type = !StrUtil.isBlank(type) ? Constants.ROTATE_TYPE.get(Integer.parseInt(type)) : Constants.ROTATE_TYPE.get(0);
     List<RotatePicture> banners = this.pictureService.getBannersByMiniApp(type);
     return new ResponseEntity<>(Result.success(banners),HttpStatus.OK);
   }
