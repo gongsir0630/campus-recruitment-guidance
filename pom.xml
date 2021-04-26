@@ -139,6 +139,27 @@
     </dependencies>
   </dependencyManagement>
 
+  <profiles>
+    <!-- 开发环境 -->
+    <profile>
+      <id>dev</id>
+      <properties>
+        <spring.profiles.active>dev</spring.profiles.active>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+
+    <!-- 线上环境 -->
+    <profile>
+      <id>pro</id>
+      <properties>
+        <spring.profiles.active>pro</spring.profiles.active>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
