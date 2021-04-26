@@ -14,7 +14,7 @@ spring:
     suffix: .html
   # 配置文件环境
   profiles:
-    active: ${spring.profiles.active}
+    active: '@profile.active@'
 
 # 设置日志级别
 logging:
