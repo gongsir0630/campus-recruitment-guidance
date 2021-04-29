@@ -36,7 +36,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("public")
-@Api(tags = "公开接口,无需token认证")
+@Api(tags = "PUBLIC-公开接口,无需token认证")
 public class PublicController {
 
   @Value("${spring.application.name}")

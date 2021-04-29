@@ -1,6 +1,7 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
@@ -18,6 +19,7 @@ import top.yzhelp.campus.service.RecommendationService;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -45,9 +47,11 @@ public class NtAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<Recommendation> data = this.infoService.page(null
-      ,new LambdaQueryWrapper<Recommendation>().orderByDesc(Recommendation::getId));
-    return new ResponseEntity<>(Result.success(data), HttpStatus.OK);
+    List<Recommendation> list = this.infoService.list(new LambdaQueryWrapper<Recommendation>().orderByDesc(Recommendation::getId));
+    Map<String,Object> data = MapUtil.newHashMap();
+    data.put("list",list);
+    data.put("total",list.size());
+    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
   @ApiOperation("更新信息")

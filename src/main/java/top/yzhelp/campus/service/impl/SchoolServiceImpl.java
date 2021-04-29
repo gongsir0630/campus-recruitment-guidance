@@ -6,6 +6,8 @@ import top.yzhelp.campus.mapper.SchoolMapper;
 import top.yzhelp.campus.model.yh.School;
 import top.yzhelp.campus.service.SchoolService;
 
+import java.util.List;
+
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/8 16:17
@@ -14,6 +16,11 @@ import top.yzhelp.campus.service.SchoolService;
  */
 @Service
 public class SchoolServiceImpl extends ServiceImpl<SchoolMapper, School> implements SchoolService {
+  @Override
+  public List<School> getAllList() {
+    return this.list();
+  }
+
   /**
    * 新增或更新学校信息
    *

@@ -1,8 +1,6 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.controller.wx.index.DynamicInfoController;
 import top.yzhelp.campus.model.dt.DynamicInfo;
 import top.yzhelp.campus.service.DynamicInfoService;
 
@@ -34,6 +33,8 @@ public class DtAdminController {
 
   @Resource
   private DynamicInfoService infoService;
+  @Resource
+  private DynamicInfoController infoController;
 
   /**
    * 获取所有动态
@@ -45,9 +46,7 @@ public class DtAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<DynamicInfo> data = this.infoService.page(null
-      ,new LambdaQueryWrapper<DynamicInfo>().orderByDesc(DynamicInfo::getId));
-    return new ResponseEntity<>(Result.success(data), HttpStatus.OK);
+    return this.infoController.getAllDynamicInfo();
   }
 
   @ApiOperation("更新信息")

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.controller.wx.me.SchoolController;
 import top.yzhelp.campus.model.yh.School;
 import top.yzhelp.campus.service.SchoolService;
 
@@ -34,6 +35,8 @@ public class SchoolAdminController {
 
   @Resource
   private SchoolService schoolService;
+  @Resource
+  private SchoolController schoolController;
 
   @PutMapping
   public ResponseEntity<Result<?>> add(School school) {
@@ -51,9 +54,7 @@ public class SchoolAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<School> allSchools = this.schoolService.page(null,
-      new LambdaQueryWrapper<School>().orderByDesc(School::getId));
-    return new ResponseEntity<>(Result.success(allSchools), HttpStatus.OK);
+    return this.schoolController.getSchoolList();
   }
 
   @ApiOperation("更新信息")

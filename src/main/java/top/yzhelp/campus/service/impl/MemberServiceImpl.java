@@ -1,9 +1,8 @@
 package top.yzhelp.campus.service.impl;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.MemberMapper;
@@ -14,6 +13,7 @@ import top.yzhelp.campus.service.MemberService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -64,14 +64,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
   /**
    * 柚子帮成员列表
    *
-   * @param cur  当前页
-   * @param size 每页数量
-   * @return 分页
+   * @return list
    */
   @Override
-  public IPage<Member> getAllMemberList(int cur, int size) {
-    return this.page(new Page<>(cur,size)
-      ,new LambdaQueryWrapper<Member>().orderByDesc(Member::getLikeCount).orderByDesc(Member::getId));
+  public List<Member> getAllMemberList() {
+    return this.list(new LambdaQueryWrapper<Member>().orderByDesc(Member::getLikeCount));
   }
 
   /**
@@ -84,10 +81,20 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
   public void likeById(int id, String openId) {
     // 更新当前成员的点赞列表
     Member detail = this.getMemberDetailById(id);
-    ArrayList<String> likes = ListUtil.toList(detail.getLikeList().split(","));
+    ArrayList<String> likes = detail.getLikeList() != null
+      ? ListUtil.toList(detail.getLikeList().split(","))
+      : new ArrayList<>();
+    likes.removeIf(StrUtil::isBlank);
     // 更新用户自己的点赞列表
     Content myContent = this.contentService.getMyContent(openId);
-    ArrayList<String> myLikes = ListUtil.toList(myContent.getLikeNews().split(","));
+    if (myContent == null) {
+      myContent = new Content();
+      myContent.setOpenId(openId);
+    }
+    ArrayList<String> myLikes = myContent.getMyFollow() != null
+      ? ListUtil.toList(myContent.getMyFollow().split(","))
+      : new ArrayList<>();
+    myLikes.removeIf(StrUtil::isBlank);
     if (!likes.contains(openId)) {
       // 点赞
       likes.add(openId);
@@ -97,7 +104,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
       // 取消点赞
       likes.remove(openId);
       myLikes.remove(Integer.toString(id));
-      detail.setLikeCount(detail.getLikeCount()-1);
+      detail.setLikeCount(detail.getLikeCount()>0 ? detail.getLikeCount()-1 : 0);
     }
+    detail.setLikeList(String.join(",",likes));
+    myContent.setMyFollow(String.join(",",myLikes));
+    this.updateById(detail);
+    this.contentService.saveOrUpdate(myContent);
   }
 }

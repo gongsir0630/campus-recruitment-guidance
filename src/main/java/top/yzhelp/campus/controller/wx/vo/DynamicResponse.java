@@ -45,8 +45,7 @@ public class DynamicResponse implements Serializable {
   public DynamicResponse(WxUser user, DynamicInfo dynamicInfo) {
     this.avatar = user.getAvatar();
     this.nickName = user.getNickName();
-    this.likeCount = dynamicInfo.getLikeList().split(",").length;
-    this.collection = dynamicInfo.getCollectionList().contains(user.getOpenId());
+    this.collection = dynamicInfo.getCollectionList() == null ? Boolean.FALSE : dynamicInfo.getCollectionList().contains(user.getOpenId());
     this.detail = dynamicInfo;
   }
 }

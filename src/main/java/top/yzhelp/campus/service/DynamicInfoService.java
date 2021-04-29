@@ -1,8 +1,9 @@
 package top.yzhelp.campus.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.dt.DynamicInfo;
+
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -13,11 +14,9 @@ import top.yzhelp.campus.model.dt.DynamicInfo;
 public interface DynamicInfoService extends IService<DynamicInfo> {
   /**
    * 获取所有动态列表
-   * @param cur 当前页码
-   * @param size 每页显示数量
-   * @return IPage
+   * @return list
    */
-  IPage<DynamicInfo> getAllDtInfoList(long cur, long size);
+  List<DynamicInfo> getAllDtInfoList();
 
   /**
    * 点赞动态

@@ -3,7 +3,6 @@ package top.yzhelp.campus.controller.wx.me;
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("wx/user")
-@Api(tags = "小程序用户接口")
+@Api(tags = "MINIAPP-小程序用户接口")
 public class UserController {
 
   @Resource
@@ -42,39 +41,12 @@ public class UserController {
   @Resource
   private JwtUtil jwtUtil;
 
-  @Resource
-  private SchoolService schoolService;
-  @Resource
-  private CompanyService companyService;
-
   /**
    * 从认证信息中获取用户 openId
    * @return openId
    */
   private String getOpenId() {
     return ShiroRealm.getShiroAccount().getAuthName();
-  }
-
-  /**
-   * 获取可选学校列表
-   */
-  @PostMapping("/school")
-  @ApiOperation("获取可选学校列表")
-  public ResponseEntity<Result<?>> getSchoolList() {
-    // ok: 获取可选学校列表
-    IPage<School> data = this.schoolService.page(null);
-    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
-  }
-
-  /**
-   * 获取可选公司列表
-   */
-  @PostMapping("/company")
-  @ApiOperation("获取可选公司列表")
-  public ResponseEntity<Result<?>> getCompanyList() {
-    // ok: 获取可选公司列表
-    IPage<Company> data = this.companyService.page(null);
-    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
   /**

@@ -15,6 +15,7 @@ import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -33,15 +34,11 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
   /**
    * 获取所有动态列表
    *
-   * @param cur  当前页码
-   * @param size 每页显示数量
-   * @return IPage
+   * @return list
    */
   @Override
-  public IPage<DynamicInfo> getAllDtInfoList(long cur, long size) {
-    Page<DynamicInfo> page = new Page<>(cur, size);
-    page = cur==-1 ? null : page;
-    return this.page(page,new QueryWrapper<DynamicInfo>().orderByDesc("id"));
+  public List<DynamicInfo> getAllDtInfoList() {
+    return this.list(new QueryWrapper<DynamicInfo>().orderByDesc("id"));
   }
 
   /**

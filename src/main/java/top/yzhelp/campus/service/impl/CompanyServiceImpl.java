@@ -6,6 +6,8 @@ import top.yzhelp.campus.mapper.CompanyMapper;
 import top.yzhelp.campus.model.yh.Company;
 import top.yzhelp.campus.service.CompanyService;
 
+import java.util.List;
+
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/8 16:10
@@ -35,5 +37,10 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
   @Override
   public Company getCompanyById(int id) {
     return this.getById(id);
+  }
+
+  @Override
+  public List<Company> getAllList() {
+    return this.list();
   }
 }

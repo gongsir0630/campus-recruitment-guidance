@@ -1,9 +1,10 @@
 # dev 环境
 spring:
   redis:
-    host: 127.0.0.1
+    host: yzhelp.top
     port: 6379
     database: 0
+    password: admin1234
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     name: defaultDataSource

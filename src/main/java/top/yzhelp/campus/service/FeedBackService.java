@@ -3,6 +3,8 @@ package top.yzhelp.campus.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.other.FeedBack;
 
+import java.util.List;
+
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/8 15:45
@@ -10,4 +12,16 @@ import top.yzhelp.campus.model.other.FeedBack;
  * @description 小程序问题反馈接口
  */
 public interface FeedBackService extends IService<FeedBack> {
+  /**
+   * 获取指定用户的反馈
+   * @param openId 用户id
+   * @return list
+   */
+  List<FeedBack> getFeedBackByOpenId(String openId);
+
+  /**
+   * 所有数据
+   * @return list
+   */
+  List<FeedBack> getAll();
 }

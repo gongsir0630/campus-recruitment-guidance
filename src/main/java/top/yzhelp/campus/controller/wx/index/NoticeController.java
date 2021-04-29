@@ -1,6 +1,6 @@
 package top.yzhelp.campus.controller.wx.index;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.map.MapUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -13,6 +13,7 @@ import top.yzhelp.campus.service.NoticeService;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -23,7 +24,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("wx/notice")
-@Api(tags = "小程序公告接口")
+@Api(tags = "MINIAPP-小程序公告接口")
 public class NoticeController {
 
   @Resource
@@ -35,21 +36,13 @@ public class NoticeController {
    */
   @GetMapping(path = "/all")
   @ApiOperation("小程序获取所有公告")
-  @RequiresRoles("wx")
+//  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> getAllNotices() {
-    IPage<Notice> allNotices = this.noticeService.getAllNotices(-1,-1);
-    return new ResponseEntity<>(Result.success(allNotices), HttpStatus.OK);
-  }
-
-  /**
-   * 小程序获取最新公告, 最新 3 条
-   * @return 公告信息列表
-   */
-  @GetMapping("/Latest")
-  @ApiOperation("小程序获取最新公告, 最新 3 条")
-  private ResponseEntity<Result<?>> getLatestNotice() {
-    List<Notice> latestNotices = this.noticeService.getLatestNotices();
-    return new ResponseEntity<>(Result.success(latestNotices),HttpStatus.OK);
+    List<Notice> allNotices = this.noticeService.getAllNotices();
+    Map<String,Object> res = MapUtil.newHashMap();
+    res.put("list",allNotices);
+    res.put("total",allNotices.size());
+    return new ResponseEntity<>(Result.success(res), HttpStatus.OK);
   }
 
   /**

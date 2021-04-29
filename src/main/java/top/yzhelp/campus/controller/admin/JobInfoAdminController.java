@@ -1,13 +1,11 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -21,6 +19,7 @@ import top.yzhelp.campus.service.JobInfoService;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -40,6 +39,9 @@ public class JobInfoAdminController {
 
   @ApiOperation("申请审核")
   @PostMapping("/certificate/{status}")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "status",value = "审核状态: 0,1,2 分别代表 \"认证失败\",\"待审核\",\"认证通过\"")
+  })
   public ResponseEntity<Result<?>> certificate(String ids,
                                                @PathVariable("status") int status) {
     List<String> idList = ListUtil.toList(ids.split(","));
@@ -59,8 +61,12 @@ public class JobInfoAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<JobInfo> data = this.jobInfoService.page(null
-      ,new LambdaQueryWrapper<JobInfo>().orderByDesc(JobInfo::getId));
+    List<JobInfo> allInfoList = this.jobInfoService.list(
+      new LambdaQueryWrapper<JobInfo>()
+      .orderByDesc(JobInfo::getId));
+    Map<String,Object> data = MapUtil.newHashMap();
+    data.put("list",allInfoList);
+    data.put("total",allInfoList.size());
     return new ResponseEntity<>(Result.success(data), HttpStatus.OK);
   }
 

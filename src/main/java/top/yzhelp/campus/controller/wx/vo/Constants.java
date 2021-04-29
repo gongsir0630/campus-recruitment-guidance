@@ -24,4 +24,9 @@ public interface Constants {
    * 标签类型: 0,1,2 分别代表 "话题标签","职位标签","领域标签"
    */
   public static final List<String> TAG_TYPE = Arrays.asList("话题标签","职位标签","领域标签");
+
+  /**
+   * 受理状态: 0,1 分别代表 "待受理","已受理"
+   */
+  public static final List<String> ACCEPT_STATUS = Arrays.asList("待受理","已受理");
 }

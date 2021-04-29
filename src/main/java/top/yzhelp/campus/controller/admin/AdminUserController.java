@@ -51,11 +51,12 @@ public class AdminUserController {
     @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
   })
   public ResponseEntity<Result<?>> loginBySms(String tel,String code) {
+    // TODO: 手机验证码登录
     return null;
   }
 
   @PostMapping("/loginByPass")
-  @ApiOperation("管理登录")
+  @ApiOperation("管理登录-密码登陆")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "userId",value = "用户名/手机号:测试账号(201731061426/17361040630)",required = true),
     @ApiImplicitParam(name = "password",value = "密码:测试密码(201731061426)",required = true)

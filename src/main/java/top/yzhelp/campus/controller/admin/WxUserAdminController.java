@@ -1,7 +1,8 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -17,6 +18,7 @@ import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -44,7 +46,10 @@ public class WxUserAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<WxUser> data = this.wxUserService.page(null);
+    List<WxUser> list = this.wxUserService.list(new LambdaQueryWrapper<WxUser>().orderByDesc(WxUser::getRealName));
+    Map<String,Object> data = MapUtil.newHashMap();
+    data.put("list",list);
+    data.put("total",list.size());
     return new ResponseEntity<>(Result.success(data), HttpStatus.OK);
   }
 

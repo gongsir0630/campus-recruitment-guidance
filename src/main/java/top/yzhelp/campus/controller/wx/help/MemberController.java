@@ -1,7 +1,6 @@
 package top.yzhelp.campus.controller.wx.help;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.hutool.core.map.MapUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ import top.yzhelp.campus.shiro.ShiroRealm;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -32,7 +32,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("wx/member")
-@Api(tags = "小程序柚子帮接口")
+@Api(tags = "MINIAPP-小程序柚子帮接口")
 public class MemberController {
 
   @Resource
@@ -61,12 +61,10 @@ public class MemberController {
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
   }
 
-  @GetMapping("all")
+  @GetMapping("list")
   @ApiOperation("柚子帮列表展示")
-  public ResponseEntity<Result<?>> all(@RequestParam(defaultValue = "1") int cur,
-                                            @RequestParam(defaultValue = "10") int size) {
-    IPage<Member> allMemberList = this.memberService.getAllMemberList(cur, size);
-    List<Member> records = allMemberList.getRecords();
+  public ResponseEntity<Result<?>> all() {
+    List<Member> records = this.memberService.getAllMemberList();
     List<MemberApplyResponse> data = new ArrayList<>();
     records.forEach(member -> {
       final String openId = member.getOpenId();
@@ -77,15 +75,20 @@ public class MemberController {
       response.setSelectStatus(member.getCurrentState());
       data.add(response);
     });
-    IPage<MemberApplyResponse> newPage = new Page<>(allMemberList.getCurrent()
-      ,allMemberList.getSize(),allMemberList.getTotal(),allMemberList.isSearchCount());
-    newPage.setRecords(data);
-    return new ResponseEntity<>(Result.success(newPage),HttpStatus.OK);
+    Map<String,Object> res = MapUtil.newHashMap();
+    res.put("list",data);
+    res.put("total",data.size());
+    return new ResponseEntity<>(Result.success(res),HttpStatus.OK);
   }
 
   @PostMapping("apply")
   @ApiOperation("柚子帮成员申请")
   public ResponseEntity<Result<?>> apply(Member member) {
+    // 重复判断
+    Member dbMember = this.memberService.getMemberDetailByOpenId(getOpenId());
+    if (dbMember != null) {
+      member.setId(dbMember.getId());
+    }
     member.setOpenId(getOpenId());
     member.setCertificationStatus(Constants.CET_STATUS.get(1));
     Member newMember = this.memberService.saveOrUpdateMember(member);
@@ -99,24 +102,8 @@ public class MemberController {
   @GetMapping("apply")
   @ApiOperation("获取个人认证信息")
   public ResponseEntity<Result<?>> getApply() {
-    // 1. 获取用户个人信息
-    WxUser userInfo = this.userService.getUserInfo(getOpenId());
-    // 获取教育认证信息
-    EduInfo edu = this.eduInfoService.getEduInfoById(userInfo.getEduId());
-    if (edu == null || !Boolean.parseBoolean(edu.getStatus())) {
-      return new ResponseEntity<>(Result.fail(CodeMsg.EDU_ERROR,null), HttpStatus.OK);
-    }
-    MemberApplyResponse response = new MemberApplyResponse(userInfo,edu);
-    JobInfo job = this.jobInfoService.getJobInfoById(userInfo.getJobId());
-    // 如果已经通过职位认证,优先显示职位信息
-    if (job != null && Boolean.parseBoolean(job.getStatus())) {
-      response.setSelectStatus("工作");
-      // 设置所在公司
-      response.setCompanyName(this.companyService.getCompanyById(job.getCompanyId()).getName());
-    }
-    // 2. 获取柚子帮成员信息
+    // 获取柚子帮成员信息
     Member detail = this.memberService.getMemberDetailByOpenId(getOpenId());
-    response.setMember(detail);
-    return new ResponseEntity<>(Result.success(response),HttpStatus.OK);
+    return new ResponseEntity<>(Result.success(detail),HttpStatus.OK);
   }
 }

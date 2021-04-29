@@ -1,13 +1,8 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -15,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.controller.wx.help.MemberController;
 import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.yzb.Member;
 import top.yzhelp.campus.service.MemberService;
@@ -37,9 +33,14 @@ public class MemberAdminController {
 
   @Resource
   private MemberService memberService;
+  @Resource
+  private MemberController memberController;
 
   @ApiOperation("申请审核")
   @PostMapping("/certificate/{status}")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "status",value = "审核状态: 0,1,2 分别代表 \"认证失败\",\"待审核\",\"认证通过\"")
+  })
   public ResponseEntity<Result<?>> certificate(String ids,
                                                @PathVariable("status") int status) {
     List<String> idList = ListUtil.toList(ids.split(","));
@@ -59,9 +60,7 @@ public class MemberAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<Member> data = this.memberService.page(null
-      ,new LambdaQueryWrapper<Member>().orderByDesc(Member::getId));
-    return new ResponseEntity<>(Result.success(data), HttpStatus.OK);
+    return this.memberController.all();
   }
 
   @ApiOperation("更新信息")

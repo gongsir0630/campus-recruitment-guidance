@@ -1,8 +1,7 @@
 package top.yzhelp.campus.controller.wx.index;
 
 import cn.hutool.core.collection.ListUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.hutool.core.map.MapUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -32,7 +32,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("wx/dynamic")
-@Api(tags = "小程序动态信息")
+@Api(tags = "MINIAPP-小程序动态信息")
 public class DynamicInfoController {
 
   @Resource
@@ -95,18 +95,21 @@ public class DynamicInfoController {
   @GetMapping("/all")
   @ApiOperation("动态列表")
   public ResponseEntity<Result<?>> getAllDynamicInfo() {
-    IPage<DynamicInfo> allDtInfoList = this.dynamicInfoService.getAllDtInfoList(-1L, -1L);
-    List<DynamicInfo> records = allDtInfoList.getRecords();
+    List<DynamicInfo> records = this.dynamicInfoService.getAllDtInfoList();
     List<DynamicResponse> data = new ArrayList<>();
     // 对信息进行进一步处理
     records.forEach(dt -> {
       // todo: 获取发布人信息
       WxUser userInfo = this.userService.getUserInfo(dt.getOpenId());
       // 转换话题标签列表
-      List<String> tags = tagService.getTagNameListByIds(dt.getTopicTags());
+      List<String> tags = dt.getTopicTags() != null
+        ? tagService.getTagNameListByIds(dt.getTopicTags())
+        : new ArrayList<>();
       dt.setTopicTags(String.join(",",tags));
       // 转换点赞列表: id -> nickName
-      List<String> openIds = ListUtil.toList(dt.getLikeList().split(","));
+      List<String> openIds = dt.getLikeList() != null
+        ? ListUtil.toList(dt.getLikeList().split(","))
+        : new ArrayList<>();
       LinkedList<String> likeList2NameList = new LinkedList<>();
       openIds.forEach(openId -> {
         likeList2NameList.add(this.userService.getUserInfo(openId).getNickName());
@@ -118,6 +121,7 @@ public class DynamicInfoController {
       }
       dt.setLikeList(String.join(",",likeList2NameList));
       DynamicResponse response = new DynamicResponse(userInfo, dt);
+      response.setLikeCount(openIds.size());
       // todo: 设置工作认证信息
       JobInfo job = jobInfoService.getJobInfoByOpenId(userInfo.getOpenId());
       if (job == null || !Boolean.parseBoolean(job.getStatus())) {
@@ -130,16 +134,13 @@ public class DynamicInfoController {
       if (edu == null || !Boolean.parseBoolean(edu.getStatus())) {
         response.setMajor("未认证教育信息");
       } else {
-        response.setMajor(response.getMajor());
+        response.setMajor(edu.getMajor());
       }
       data.add(response);
     });
-    // 重新进行分页封装
-    IPage<DynamicResponse> newPage = new Page<>(allDtInfoList.getCurrent()
-      ,allDtInfoList.getSize()
-      ,allDtInfoList.getTotal()
-      ,allDtInfoList.isSearchCount());
-    newPage.setRecords(data);
-    return new ResponseEntity<>(Result.success(newPage), HttpStatus.OK);
+    Map<String,Object> res = MapUtil.newHashMap();
+    res.put("list",data);
+    res.put("total",data.size());
+    return new ResponseEntity<>(Result.success(res), HttpStatus.OK);
   }
 }

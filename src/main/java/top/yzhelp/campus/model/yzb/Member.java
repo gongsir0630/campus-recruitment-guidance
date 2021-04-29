@@ -1,8 +1,10 @@
 package top.yzhelp.campus.model.yzb;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -43,7 +45,8 @@ public class Member implements Serializable {
   @ApiModelProperty("认证状态:需要审核")
   private String certificationStatus;
   @ApiModelProperty("申请时间")
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JSONField(format="yyyy-MM-dd")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   private Date applyTime;
   @ApiModelProperty("点赞")
   private String likeList;

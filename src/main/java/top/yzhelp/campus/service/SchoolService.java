@@ -3,6 +3,8 @@ package top.yzhelp.campus.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.yh.School;
 
+import java.util.List;
+
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/8 16:17
@@ -10,6 +12,11 @@ import top.yzhelp.campus.model.yh.School;
  * @description 学校信息接口
  */
 public interface SchoolService extends IService<School> {
+  /**
+   * 获取学校列表
+   * @return list
+   */
+  List<School> getAllList();
   /**
    * 新增或更新学校信息
    * @param school 学校信息

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.yzhelp.campus.controller.res.Result;
-import top.yzhelp.campus.service.EduInfoService;
+import top.yzhelp.campus.model.yh.Company;
+import top.yzhelp.campus.service.CompanyService;
 
 import javax.annotation.Resource;
 
@@ -22,16 +23,23 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
-@RequestMapping("wx/edu")
-@Api(tags = "MINIAPP-教育信息接口")
-public class EduInfoController {
+@RequestMapping("wx/company")
+@Api(tags = "MINIAPP-公司信息接口")
+public class CompanyController {
 
   @Resource
-  private EduInfoService eduInfoService;
+  private CompanyService companyService;
+
+  @GetMapping("/list")
+  @ApiOperation("获取可选公司列表")
+  public ResponseEntity<Result<?>> list() {
+    return new ResponseEntity<>(Result.success(this.companyService.getAllList()), HttpStatus.OK);
+  }
 
   @GetMapping("/{id}")
-  @ApiOperation("根据id获取教育信息详情")
-  public ResponseEntity<Result<?>> getEduInfoById(@PathVariable int id) {
-    return new ResponseEntity<>(Result.success(this.eduInfoService.getEduInfoById(id)), HttpStatus.OK);
+  @ApiOperation("根据id获取公司详情")
+  public ResponseEntity<Result<?>> getCompanyById(@PathVariable int id) {
+    Company company = this.companyService.getCompanyById(id);
+    return new ResponseEntity<>(Result.success(company),HttpStatus.OK);
   }
 }

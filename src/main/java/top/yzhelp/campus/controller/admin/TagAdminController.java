@@ -1,7 +1,6 @@
 package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -50,7 +49,7 @@ public class TagAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    IPage<Tag> allTags = this.tagService.getAllTags();
+    List<Tag> allTags = this.tagService.getAllTags();
     return new ResponseEntity<>(Result.success(allTags), HttpStatus.OK);
   }
 

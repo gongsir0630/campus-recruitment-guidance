@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.JobInfo;
 
+import java.util.List;
+
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/8 16:12
@@ -32,4 +34,9 @@ public interface EduInfoService extends IService<EduInfo> {
    */
   EduInfo getEduInfoByOpenId(String openId);
 
+  /**
+   * 获取所有数据
+   * @return list
+   */
+  List<EduInfo> getAllInfoList();
 }

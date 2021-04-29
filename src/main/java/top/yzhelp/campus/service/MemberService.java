@@ -1,9 +1,9 @@
 package top.yzhelp.campus.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.yzhelp.campus.mapper.MemberMapper;
 import top.yzhelp.campus.model.yzb.Member;
+
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -35,11 +35,9 @@ public interface MemberService extends IService<Member> {
 
   /**
    * 柚子帮成员列表
-   * @param cur 当前页
-   * @param size 每页数量
-   * @return 分页
+   * @return list
    */
-  IPage<Member> getAllMemberList(int cur, int size);
+  List<Member> getAllMemberList();
 
   /**
    * like

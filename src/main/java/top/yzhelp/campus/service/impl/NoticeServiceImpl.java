@@ -21,29 +21,13 @@ import java.util.List;
 @Service
 public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements NoticeService {
   /**
-   * 获取最新三条公告
-   *
-   * @return 公告信息
-   */
-  @Override
-  public List<Notice> getLatestNotices() {
-    return this.getAllNotices(1,3).getRecords();
-  }
-
-  /**
    * 获取所有公告信息, 支持分页
    *
-   * @param cur 当前页
-   * @param size 每页显示数量
    * @return 公告信息
    */
   @Override
-  public IPage<Notice> getAllNotices(long cur, long size) {
-    IPage<Notice> page = new Page<>(cur,size);
-    if (cur==-1) {
-      page = null;
-    }
-    return this.page(page,new LambdaQueryWrapper<Notice>().orderByDesc(Notice::getId));
+  public List<Notice> getAllNotices() {
+    return this.list(new LambdaQueryWrapper<Notice>().orderByDesc(Notice::getId));
   }
 
   /**

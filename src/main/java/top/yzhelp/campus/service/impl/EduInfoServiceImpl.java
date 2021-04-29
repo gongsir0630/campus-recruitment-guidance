@@ -1,5 +1,6 @@
 package top.yzhelp.campus.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.service.EduInfoService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -51,5 +53,10 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
   @Override
   public EduInfo getEduInfoByOpenId(String openId) {
     return this.getOne(new QueryWrapper<EduInfo>().eq("open_id",openId));
+  }
+
+  @Override
+  public List<EduInfo> getAllInfoList() {
+    return this.list(new LambdaQueryWrapper<EduInfo>().orderByDesc(EduInfo::getId));
   }
 }
