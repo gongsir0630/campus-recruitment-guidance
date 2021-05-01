@@ -93,20 +93,33 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     ArrayList<String> myLikes = !StrUtil.isBlank(myContent.getMyFollow())
       ? ListUtil.toList(myContent.getMyFollow().split(","))
       : new ArrayList<>();
+    // 更新当前成员的被关注列表
+    Content hisContent = this.contentService.getMyContent(detail.getOpenId());
+    if (hisContent == null) {
+      hisContent = new Content();
+      hisContent.setOpenId(detail.getOpenId());
+    }
+    ArrayList<String> followHe = !StrUtil.isBlank(hisContent.getFollowMe())
+      ? ListUtil.toList(hisContent.getFollowMe().split(","))
+      : new ArrayList<>();
     if (!likes.contains(openId)) {
       // 点赞
       likes.add(openId);
       myLikes.add(Integer.toString(id));
       detail.setLikeCount(detail.getLikeCount()+1);
+      followHe.add(openId);
     } else {
       // 取消点赞
       likes.remove(openId);
       myLikes.remove(Integer.toString(id));
       detail.setLikeCount(detail.getLikeCount()>0 ? detail.getLikeCount()-1 : 0);
+      followHe.remove(openId);
     }
     detail.setLikeList(String.join(",",likes));
     myContent.setMyFollow(String.join(",",myLikes));
+    hisContent.setFollowMe(String.join(",",followHe));
     this.updateById(detail);
     this.contentService.saveOrUpdate(myContent);
+    this.contentService.saveOrUpdate(hisContent);
   }
 }
