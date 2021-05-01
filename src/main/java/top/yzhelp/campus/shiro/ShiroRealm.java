@@ -12,8 +12,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
-import top.yzhelp.campus.controller.res.CodeMsg;
-import top.yzhelp.campus.exception.ApiAuthException;
 import top.yzhelp.campus.shiro.vo.JwtToken;
 import top.yzhelp.campus.shiro.vo.ShiroAccount;
 import top.yzhelp.campus.util.JwtUtil;
@@ -87,7 +85,9 @@ public class ShiroRealm {
       protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         final String jwtToken = (String) authenticationToken.getPrincipal();
         if (!jwtUtil.verify(jwtToken)) {
-          throw new ApiAuthException(CodeMsg.TOKEN_ERROR);
+          ShiroAccount account = new ShiroAccount("visitor","visitor",Collections.singletonList(JwtUtil.VISITOR));
+          return new SimpleAuthenticationInfo(account,jwtToken,getName());
+          // throw new AuthenticationException(String.valueOf(CodeMsg.TOKEN_ERROR));
         }
         // 角色信息
         final String role = jwtUtil.getRole(jwtToken);

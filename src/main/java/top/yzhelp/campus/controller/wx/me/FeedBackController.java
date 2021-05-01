@@ -3,6 +3,7 @@ package top.yzhelp.campus.controller.wx.me;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,7 @@ public class FeedBackController {
 
   @PutMapping
   @ApiOperation("用户反馈")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> add(FeedBack back) {
     back.setFeedTime(new Date());
     back.setAcceptStatus(Constants.ACCEPT_STATUS.get(0));
@@ -55,6 +57,7 @@ public class FeedBackController {
 
   @GetMapping("/me")
   @ApiOperation("获取当前用户的所有反馈")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> getEduInfoById() {
     List<FeedBack> feedBacks = this.feedBackService.getFeedBackByOpenId(getOpenId());
     return new ResponseEntity<>(Result.success(feedBacks), HttpStatus.OK);

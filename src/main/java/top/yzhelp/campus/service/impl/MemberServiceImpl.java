@@ -81,20 +81,18 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
   public void likeById(int id, String openId) {
     // 更新当前成员的点赞列表
     Member detail = this.getMemberDetailById(id);
-    ArrayList<String> likes = detail.getLikeList() != null
+    ArrayList<String> likes = !StrUtil.isBlank(detail.getLikeList())
       ? ListUtil.toList(detail.getLikeList().split(","))
       : new ArrayList<>();
-    likes.removeIf(StrUtil::isBlank);
     // 更新用户自己的点赞列表
     Content myContent = this.contentService.getMyContent(openId);
     if (myContent == null) {
       myContent = new Content();
       myContent.setOpenId(openId);
     }
-    ArrayList<String> myLikes = myContent.getMyFollow() != null
+    ArrayList<String> myLikes = !StrUtil.isBlank(myContent.getMyFollow())
       ? ListUtil.toList(myContent.getMyFollow().split(","))
       : new ArrayList<>();
-    myLikes.removeIf(StrUtil::isBlank);
     if (!likes.contains(openId)) {
       // 点赞
       likes.add(openId);

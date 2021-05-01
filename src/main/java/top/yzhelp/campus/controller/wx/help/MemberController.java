@@ -4,15 +4,14 @@ import cn.hutool.core.map.MapUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
 import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.controller.wx.vo.MemberApplyResponse;
 import top.yzhelp.campus.model.yh.EduInfo;
-import top.yzhelp.campus.model.yh.JobInfo;
 import top.yzhelp.campus.model.yh.WxUser;
 import top.yzhelp.campus.model.yzb.Member;
 import top.yzhelp.campus.service.*;
@@ -56,6 +55,7 @@ public class MemberController {
 
   @GetMapping("/like/{id}")
   @ApiOperation("点赞 | 取消点赞")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> like(@PathVariable int id) {
     this.memberService.likeById(id,this.getOpenId());
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
@@ -83,6 +83,7 @@ public class MemberController {
 
   @PostMapping("apply")
   @ApiOperation("柚子帮成员申请")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> apply(Member member) {
     // 重复判断
     Member dbMember = this.memberService.getMemberDetailByOpenId(getOpenId());
@@ -101,6 +102,7 @@ public class MemberController {
    */
   @GetMapping("apply")
   @ApiOperation("获取个人认证信息")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> getApply() {
     // 获取柚子帮成员信息
     Member detail = this.memberService.getMemberDetailByOpenId(getOpenId());

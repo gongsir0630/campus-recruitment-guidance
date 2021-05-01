@@ -1,10 +1,10 @@
 package top.yzhelp.campus.controller.wx.index;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import top.yzhelp.campus.shiro.ShiroRealm;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +56,10 @@ public class DynamicInfoController {
 
   @PostMapping
   @ApiOperation("发布动态 | 更新动态")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> saveOrUpdate(DynamicInfo info) {
+    info.setOpenId(this.getOpenId());
+    info.setPublishTime(new Date());
     DynamicInfo dynamicInfo = this.dynamicInfoService.saveOrUpdateDt(info);
     DynamicResponse response = new DynamicResponse(this.userService.getUserInfo(getOpenId()),dynamicInfo);
     return new ResponseEntity<>(Result.success(response),HttpStatus.OK);
@@ -64,6 +67,7 @@ public class DynamicInfoController {
 
   @DeleteMapping("/{id}")
   @ApiOperation("删除动态")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> deleteById(@PathVariable int id) {
     this.dynamicInfoService.deleteDtById(id);
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
@@ -71,6 +75,7 @@ public class DynamicInfoController {
 
   @GetMapping("/collection/{id}")
   @ApiOperation("收藏 | 取消收藏")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> collection(@PathVariable int id) {
     this.dynamicInfoService.collection(id,this.getOpenId());
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
@@ -83,6 +88,7 @@ public class DynamicInfoController {
    */
   @GetMapping("/like/{id}")
   @ApiOperation("点赞 | 取消点赞")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> like(@PathVariable int id) {
     this.dynamicInfoService.likeById(id,this.getOpenId());
     return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
@@ -106,22 +112,7 @@ public class DynamicInfoController {
         ? tagService.getTagNameListByIds(dt.getTopicTags())
         : new ArrayList<>();
       dt.setTopicTags(String.join(",",tags));
-      // 转换点赞列表: id -> nickName
-      List<String> openIds = dt.getLikeList() != null
-        ? ListUtil.toList(dt.getLikeList().split(","))
-        : new ArrayList<>();
-      LinkedList<String> likeList2NameList = new LinkedList<>();
-      openIds.forEach(openId -> {
-        likeList2NameList.add(this.userService.getUserInfo(openId).getNickName());
-      });
-      // 如果当前用户已经点赞,则将该用户移至列表开头
-      if (openIds.contains(getOpenId())) {
-        likeList2NameList.removeIf(id->id.equals(getOpenId()));
-        likeList2NameList.addFirst(this.userService.getUserInfo(getOpenId()).getNickName());
-      }
-      dt.setLikeList(String.join(",",likeList2NameList));
       DynamicResponse response = new DynamicResponse(userInfo, dt);
-      response.setLikeCount(openIds.size());
       // todo: 设置工作认证信息
       JobInfo job = jobInfoService.getJobInfoByOpenId(userInfo.getOpenId());
       if (job == null || !Boolean.parseBoolean(job.getStatus())) {
@@ -136,6 +127,8 @@ public class DynamicInfoController {
       } else {
         response.setMajor(edu.getMajor());
       }
+      response.setIsLike(dt.getLikeList() == null ? Boolean.FALSE : dt.getLikeList().contains(getOpenId()));
+      response.setCollection(dt.getCollectionList() == null ? Boolean.FALSE : dt.getCollectionList().contains(getOpenId()));
       data.add(response);
     });
     Map<String,Object> res = MapUtil.newHashMap();

@@ -3,6 +3,7 @@ package top.yzhelp.campus.controller.wx.me;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class CompanyController {
 
   @GetMapping("/{id}")
   @ApiOperation("根据id获取公司详情")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> getCompanyById(@PathVariable int id) {
     Company company = this.companyService.getCompanyById(id);
     return new ResponseEntity<>(Result.success(company),HttpStatus.OK);

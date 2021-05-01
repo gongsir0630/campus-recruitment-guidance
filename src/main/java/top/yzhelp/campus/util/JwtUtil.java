@@ -40,6 +40,7 @@ public class JwtUtil {
    */
   public static final String ROLE_ADMIN = "admin";
   public static final String ROLE_WX = "wx";
+  public static final String VISITOR = "visitor";
 
   @Autowired
   private StringRedisTemplate redisTemplate;

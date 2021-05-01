@@ -30,8 +30,8 @@ public class AppExceptionHandler {
   @ExceptionHandler({ShiroException.class})
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public ResponseEntity<Result<String>> handShiroException(ShiroException e) {
-    this.log.error("--->>> 捕捉到 [ApiAuthException] 异常: {}", e.getMessage());
-    return new ResponseEntity<>(Result.fail(CodeMsg.SHIRO_ERROR,null), HttpStatus.UNAUTHORIZED);
+    this.log.error("--->>> 捕捉到 [ShiroException] 异常: {}", e.getMessage());
+    return new ResponseEntity<>(Result.fail(CodeMsg.SHIRO_ERROR,null), HttpStatus.OK);
   }
 
   /**
@@ -43,7 +43,7 @@ public class AppExceptionHandler {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public ResponseEntity<Result<String>> handApiAuthException(ApiAuthException e) {
     log.error("--->>> 捕捉到 [ApiAuthException] 异常: {}-{}",e.getCodeMsg().getCode(),e.getCodeMsg().getErrMsg() );
-    return new ResponseEntity<>(Result.fail(e.getCodeMsg(),null), HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity<>(Result.fail(e.getCodeMsg(),null), HttpStatus.OK);
   }
 
 }

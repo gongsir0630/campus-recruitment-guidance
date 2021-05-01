@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.WxUserMapper;
+import top.yzhelp.campus.model.other.Content;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.JobInfo;
 import top.yzhelp.campus.model.yh.WxUser;
+import top.yzhelp.campus.service.ContentService;
 import top.yzhelp.campus.service.EduInfoService;
 import top.yzhelp.campus.service.JobInfoService;
 import top.yzhelp.campus.service.WxUserService;
@@ -33,6 +35,8 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
   private EduInfoService eduInfoService;
   @Resource
   private JobInfoService jobInfoService;
+  @Resource
+  private ContentService contentService;
 
   @Resource
   private JwtUtil jwtUtil;
@@ -81,6 +85,12 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     // todo: 用户注册
     user.setEduId(eduId);
     user.setJobId(jobId);
+    Content myContent = this.contentService.getMyContent(user.getOpenId());
+    if (myContent == null) {
+      myContent = new Content();
+      myContent.setOpenId(user.getOpenId());
+      this.contentService.saveOrUpdate(myContent);
+    }
     this.saveOrUpdate(user);
     return this.getUserInfo(user.getOpenId());
   }

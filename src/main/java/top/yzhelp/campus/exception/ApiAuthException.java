@@ -8,7 +8,7 @@ import top.yzhelp.campus.controller.res.CodeMsg;
  * 你的指尖,拥有改变世界的力量
  * @description 自定义异常, 用于处理Api认证失败异常信息保存
  */
-public class ApiAuthException extends RuntimeException{
+public class ApiAuthException extends RuntimeException {
 
   private CodeMsg codeMsg;
 

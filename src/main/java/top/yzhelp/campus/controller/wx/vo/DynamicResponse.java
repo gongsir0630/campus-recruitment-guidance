@@ -1,5 +1,6 @@
 package top.yzhelp.campus.controller.wx.vo;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,8 @@ public class DynamicResponse implements Serializable {
   private Integer likeCount;
   @ApiModelProperty("收藏状态")
   private Boolean collection;
+  @ApiModelProperty("点赞状态")
+  private Boolean isLike;
   @ApiModelProperty("动态详情")
   private DynamicInfo detail;
 
@@ -45,7 +48,7 @@ public class DynamicResponse implements Serializable {
   public DynamicResponse(WxUser user, DynamicInfo dynamicInfo) {
     this.avatar = user.getAvatar();
     this.nickName = user.getNickName();
-    this.collection = dynamicInfo.getCollectionList() == null ? Boolean.FALSE : dynamicInfo.getCollectionList().contains(user.getOpenId());
+    this.likeCount = StrUtil.isBlank(dynamicInfo.getLikeList()) ? 0 : dynamicInfo.getLikeList().split(",").length;
     this.detail = dynamicInfo;
   }
 }

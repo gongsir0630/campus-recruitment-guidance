@@ -2,6 +2,7 @@ package top.yzhelp.campus.controller.wx.me;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class JobInfoController {
   private JobInfoService jobInfoService;
 
   @GetMapping("/{id}")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> getEduInfoById(@PathVariable int id) {
     return new ResponseEntity<>(Result.success(this.jobInfoService.getJobInfoById(id)), HttpStatus.OK);
   }

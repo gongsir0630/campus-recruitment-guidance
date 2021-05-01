@@ -1,9 +1,8 @@
 package top.yzhelp.campus.service.impl;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.DynamicInfoMapper;
@@ -51,10 +50,14 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
   public void likeById(int id,String openId) {
     // 更新当前动态的点赞列表
     DynamicInfo dt = this.getDtDetailById(id);
-    ArrayList<String> likes = ListUtil.toList(dt.getLikeList().split(","));
+    ArrayList<String> likes = !StrUtil.isBlank(dt.getLikeList())
+      ? ListUtil.toList(dt.getLikeList().split(","))
+      : new ArrayList<>();
     // 更新用户自己的点赞列表
     Content myContent = this.contentService.getMyContent(openId);
-    ArrayList<String> myLikes = ListUtil.toList(myContent.getLikeNews().split(","));
+    ArrayList<String> myLikes = !StrUtil.isBlank(myContent.getLikeNews())
+      ? ListUtil.toList(myContent.getLikeNews().split(","))
+      : new ArrayList<>();
     if (!likes.contains(openId)) {
       // 点赞
       likes.add(openId);
@@ -89,15 +92,27 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
    */
   @Override
   public void collection(int id, String openId) {
+    // 更新当前动态的点赞列表
+    DynamicInfo dt = this.getDtDetailById(id);
+    ArrayList<String> collections = !StrUtil.isBlank(dt.getCollectionList())
+      ? ListUtil.toList(dt.getCollectionList().split(","))
+      : new ArrayList<>();
     // 更新用户自己的收藏列表
     Content myContent = this.contentService.getMyContent(openId);
-    ArrayList<String> myCollections = ListUtil.toList(myContent.getCollectNews().split(","));
-    if (!myCollections.contains(Integer.toString(id))) {
+    ArrayList<String> myCollections = !StrUtil.isBlank(myContent.getCollectNews())
+      ? ListUtil.toList(myContent.getCollectNews().split(","))
+      : new ArrayList<>();
+    if (!collections.contains(openId)) {
+      // 收藏
+      collections.add(openId);
       myCollections.add(Integer.toString(id));
     } else {
-      // 取消收藏
+      // 取消点赞
+      collections.remove(openId);
       myCollections.remove(Integer.toString(id));
     }
+    dt.setCollectionList(String.join(",",collections));
+    this.updateById(dt);
     myContent.setCollectNews(String.join(",",myCollections));
     this.contentService.updateById(myContent);
   }
@@ -111,15 +126,15 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
   public void deleteDtById(int id) {
     DynamicInfo dt = this.getDtDetailById(id);
     // todo: 删除所有点赞用户的点赞记录
-    ArrayList<String> likes = ListUtil.toList(dt.getLikeList().split(","));
-    likes.forEach(openid -> {
-      this.contentService.deleteIdFromLikes(openid,id);
-    });
+    ArrayList<String> likes = !StrUtil.isBlank(dt.getLikeList())
+      ? ListUtil.toList(dt.getLikeList().split(","))
+      : new ArrayList<>();
+    likes.forEach(openid -> this.contentService.deleteIdFromLikes(openid,id));
     // todo: 删除所有收藏用户的收藏记录
-    ArrayList<String> collections = ListUtil.toList(dt.getCollectionList().split(","));
-    collections.forEach(openid -> {
-      this.contentService.deleteIdFromCollections(openid,id);
-    });
+    ArrayList<String> collections = !StrUtil.isBlank(dt.getCollectionList())
+      ? ListUtil.toList(dt.getCollectionList().split(","))
+      : new ArrayList<>();
+    collections.forEach(openid -> this.contentService.deleteIdFromCollections(openid,id));
     // 删除动态
     this.removeById(id);
   }
@@ -133,6 +148,15 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
   @Override
   public DynamicInfo saveOrUpdateDt(DynamicInfo info) {
     this.saveOrUpdate(info);
+    Content myContent = this.contentService.getMyContent(info.getOpenId());
+    ArrayList<String> publish = !StrUtil.isBlank(myContent.getPublishNews())
+      ? ListUtil.toList(myContent.getPublishNews().split(","))
+      : new ArrayList<>();
+    if (!publish.contains(Integer.toString(info.getId()))) {
+      publish.add(Integer.toString(info.getId()));
+    }
+    myContent.setPublishNews(String.join(",",publish));
+    this.contentService.saveOrUpdate(myContent);
     return this.getDtDetailById(info.getId());
   }
 }

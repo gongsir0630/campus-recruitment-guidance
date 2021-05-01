@@ -3,6 +3,7 @@ package top.yzhelp.campus.controller.wx.me;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class EduInfoController {
 
   @GetMapping("/{id}")
   @ApiOperation("根据id获取教育信息详情")
+  @RequiresRoles("wx")
   public ResponseEntity<Result<?>> getEduInfoById(@PathVariable int id) {
     return new ResponseEntity<>(Result.success(this.eduInfoService.getEduInfoById(id)), HttpStatus.OK);
   }

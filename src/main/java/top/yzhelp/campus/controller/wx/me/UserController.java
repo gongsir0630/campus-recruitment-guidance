@@ -35,10 +35,6 @@ public class UserController {
   @Resource
   private WxUserService userService;
   @Resource
-  private EduInfoService eduInfoService;
-  @Resource
-  private JobInfoService jobInfoService;
-  @Resource
   private JwtUtil jwtUtil;
 
   /**
@@ -47,6 +43,16 @@ public class UserController {
    */
   private String getOpenId() {
     return ShiroRealm.getShiroAccount().getAuthName();
+  }
+
+  @GetMapping("/mine")
+  @ApiOperation("已经授权情况下获取自己的个人信息")
+  @RequiresRoles("wx")
+  public ResponseEntity<Result<?>> getProfile() {
+    WxUser newUser = this.userService.getUserInfo(getOpenId());
+    Map<String,Object> data = MapUtil.newHashMap();
+    data.put("userInfo",newUser);
+    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
   /**
@@ -70,9 +76,6 @@ public class UserController {
     WxUser newUser = this.userService.saveOrUpdateUser(wxUser, eduInfo, jobInfo);
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("userInfo",newUser);
-    data.put("eduInfo",eduInfoService.getEduInfoById(newUser.getEduId()));
-    data.put("jobInfo",jobInfoService.getJobInfoById(newUser.getJobId()));
-    data.put("curStatus","工作");
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 
