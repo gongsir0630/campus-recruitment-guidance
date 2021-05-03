@@ -53,7 +53,7 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     Map<String, String> res = new HashMap<>();
     ShiroAccount shiroAccount = wxService.login(jsCode);
     log.info("--->>>shiroAccount信息:[{}]",shiroAccount);
-    WxUser user = this.getById(shiroAccount.getAuthName());
+    WxUser user = this.getUserInfo(shiroAccount.getAuthName());
     if (user == null) {
       // 用户不存在, 提醒用户提交注册信息
       res.put("canLogin",Boolean.FALSE.toString());
@@ -104,6 +104,9 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
   @Override
   public WxUser getUserInfo(String openId) {
     Assert.notBlank(openId,"--->>>openID is null");
-    return this.getById(openId);
+    WxUser wxUser = this.getById(openId);
+    wxUser.setEduInfo(this.eduInfoService.getEduInfoById(wxUser.getEduId()));
+    wxUser.setJobInfo(this.jobInfoService.getJobInfoById(wxUser.getJobId()));
+    return wxUser;
   }
 }

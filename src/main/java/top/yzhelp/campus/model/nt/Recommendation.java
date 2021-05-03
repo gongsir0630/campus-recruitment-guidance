@@ -1,12 +1,14 @@
 package top.yzhelp.campus.model.nt;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import top.yzhelp.campus.model.yh.WxUser;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,4 +41,6 @@ public class Recommendation implements Serializable {
   private Date publishTime;
   @ApiModelProperty("点赞")
   private String likeList;
+  @TableField(exist = false)
+  private WxUser user;
 }

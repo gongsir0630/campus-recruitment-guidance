@@ -10,7 +10,6 @@ import top.yzhelp.campus.model.dt.DynamicInfo;
 import top.yzhelp.campus.model.other.Content;
 import top.yzhelp.campus.service.ContentService;
 import top.yzhelp.campus.service.DynamicInfoService;
-import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -24,8 +23,6 @@ import java.util.List;
  */
 @Service
 public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, DynamicInfo> implements DynamicInfoService {
-  @Resource
-  private WxUserService wxUserService;
 
   @Resource
   private ContentService contentService;

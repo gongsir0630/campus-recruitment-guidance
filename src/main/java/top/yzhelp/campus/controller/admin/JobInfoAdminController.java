@@ -2,9 +2,7 @@ package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -61,9 +59,7 @@ public class JobInfoAdminController {
     @ApiResponse(code = 200,message = "接口调用成功")
   })
   public ResponseEntity<Result<?>> all() {
-    List<JobInfo> allInfoList = this.jobInfoService.list(
-      new LambdaQueryWrapper<JobInfo>()
-      .orderByDesc(JobInfo::getId));
+    List<JobInfo> allInfoList = this.jobInfoService.getAllInfoList();
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("list",allInfoList);
     data.put("total",allInfoList.size());

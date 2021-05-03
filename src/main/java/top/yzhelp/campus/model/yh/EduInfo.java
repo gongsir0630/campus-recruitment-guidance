@@ -1,11 +1,13 @@
 package top.yzhelp.campus.model.yh;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -18,6 +20,7 @@ import java.io.Serializable;
 @Data
 @TableName("edu_info")
 @ApiModel("教育信息")
+@EqualsAndHashCode
 public class EduInfo implements Serializable {
   @TableId(type = IdType.AUTO)
   @ApiModelProperty(value = "教育信息 ID",example = "1")
@@ -38,4 +41,6 @@ public class EduInfo implements Serializable {
   private String description;
   @ApiModelProperty("认证状态")
   private String status;
+  @TableField(exist = false)
+  private School school;
 }

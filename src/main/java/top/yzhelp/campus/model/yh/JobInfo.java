@@ -1,6 +1,7 @@
 package top.yzhelp.campus.model.yh;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -34,4 +35,6 @@ public class JobInfo implements Serializable {
   private String description;
   @ApiModelProperty("认证状态")
   private String status;
+  @TableField(exist = false)
+  private Company company;
 }

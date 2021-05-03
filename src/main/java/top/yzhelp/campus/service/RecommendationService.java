@@ -10,4 +10,10 @@ import top.yzhelp.campus.model.nt.Recommendation;
  * @description 内推信息接口
  */
 public interface RecommendationService extends IService<Recommendation> {
+  /**
+   * 发布、更新
+   * @param info 内推信息
+   * @return 内推信息
+   */
+  Recommendation saveOrUpdateInfo(Recommendation info);
 }

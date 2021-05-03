@@ -26,6 +26,8 @@ public class Company implements Serializable {
   private String logo;
   @ApiModelProperty("企业名称")
   private String name;
+  @ApiModelProperty("企业slogan")
+  private String slogan;
   @ApiModelProperty("邮箱后缀")
   private String mailSuffix;
 }

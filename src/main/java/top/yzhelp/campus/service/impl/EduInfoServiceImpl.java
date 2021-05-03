@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.EduInfoMapper;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.service.EduInfoService;
+import top.yzhelp.campus.service.SchoolService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> implements EduInfoService {
+  @Resource
+  private SchoolService schoolService;
   /**
    * 新增或修改教育信息
    *
@@ -29,6 +32,16 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
    */
   @Override
   public EduInfo saveOrUpdateEduInfo(EduInfo eduInfo) {
+    if (eduInfo.getId() != null) {
+      // 教育信息已经存在，如果信息发生更新，则需要重新审核
+      EduInfo dbInfo = this.getEduInfoById(eduInfo.getId());
+      if (!dbInfo.equals(eduInfo)) {
+        eduInfo.setStatus(Boolean.toString(false));
+      }
+    } else {
+      // 教育信息不存在，需要审核
+      eduInfo.setStatus(Boolean.toString(false));
+    }
     this.saveOrUpdate(eduInfo);
     return this.getEduInfoById(eduInfo.getId());
   }
@@ -41,7 +54,9 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
    */
   @Override
   public EduInfo getEduInfoById(int id) {
-    return this.getById(id);
+    EduInfo eduInfo = this.getById(id);
+    eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId()));
+    return eduInfo;
   }
 
   /**
@@ -52,11 +67,15 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
    */
   @Override
   public EduInfo getEduInfoByOpenId(String openId) {
-    return this.getOne(new QueryWrapper<EduInfo>().eq("open_id",openId));
+    EduInfo eduInfo = this.getOne(new QueryWrapper<EduInfo>().eq("open_id", openId));
+    eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId()));
+    return eduInfo;
   }
 
   @Override
   public List<EduInfo> getAllInfoList() {
-    return this.list(new LambdaQueryWrapper<EduInfo>().orderByDesc(EduInfo::getId));
+    List<EduInfo> list = this.list(new LambdaQueryWrapper<EduInfo>().orderByDesc(EduInfo::getId));
+    list.forEach(eduInfo -> eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId())));
+    return list;
   }
 }

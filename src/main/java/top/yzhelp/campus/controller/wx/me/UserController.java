@@ -1,6 +1,8 @@
 package top.yzhelp.campus.controller.wx.me;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -12,12 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.CodeMsg;
 import top.yzhelp.campus.controller.res.Result;
-import top.yzhelp.campus.model.yh.*;
-import top.yzhelp.campus.service.*;
+import top.yzhelp.campus.model.yh.EduInfo;
+import top.yzhelp.campus.model.yh.JobInfo;
+import top.yzhelp.campus.model.yh.WxUser;
+import top.yzhelp.campus.service.WxUserService;
 import top.yzhelp.campus.shiro.ShiroRealm;
 import top.yzhelp.campus.util.JwtUtil;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,6 +49,23 @@ public class UserController {
    */
   private String getOpenId() {
     return ShiroRealm.getShiroAccount().getAuthName();
+  }
+
+  @GetMapping("/{openId}")
+  @ApiOperation("获取用户信息")
+  public ResponseEntity<Result<?>> getUserInfoByOpenId(@PathVariable String openId) {
+    WxUser userInfo = this.userService.getUserInfo(openId);
+    return new ResponseEntity<>(Result.success(userInfo),HttpStatus.OK);
+  }
+
+  @PostMapping("/names")
+  @ApiOperation("id转昵称")
+  public ResponseEntity<Result<?>> ids2Names(String ids) {
+    ArrayList<String> openIds = ListUtil.toList(ids.split(","));
+    openIds.removeIf(StrUtil::isBlank);
+    List<String> names = new ArrayList<>();
+    openIds.forEach(openId -> names.add(this.userService.getUserInfo(openId).getNickName()));
+    return new ResponseEntity<>(Result.success(names),HttpStatus.OK);
   }
 
   @GetMapping("/mine")
