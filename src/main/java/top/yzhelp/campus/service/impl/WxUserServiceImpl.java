@@ -53,7 +53,7 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     Map<String, String> res = new HashMap<>();
     ShiroAccount shiroAccount = wxService.login(jsCode);
     log.info("--->>>shiroAccount信息:[{}]",shiroAccount);
-    WxUser user = this.getUserInfo(shiroAccount.getAuthName());
+    WxUser user = this.getById(shiroAccount.getAuthName());
     if (user == null) {
       // 用户不存在, 提醒用户提交注册信息
       res.put("canLogin",Boolean.FALSE.toString());
