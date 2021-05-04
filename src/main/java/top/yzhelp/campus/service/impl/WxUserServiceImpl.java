@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.WxUserMapper;
-import top.yzhelp.campus.model.other.Content;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.JobInfo;
 import top.yzhelp.campus.model.yh.WxUser;
-import top.yzhelp.campus.service.ContentService;
 import top.yzhelp.campus.service.EduInfoService;
 import top.yzhelp.campus.service.JobInfoService;
 import top.yzhelp.campus.service.WxUserService;
@@ -35,8 +33,6 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
   private EduInfoService eduInfoService;
   @Resource
   private JobInfoService jobInfoService;
-  @Resource
-  private ContentService contentService;
 
   @Resource
   private JwtUtil jwtUtil;
@@ -53,7 +49,7 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     Map<String, String> res = new HashMap<>();
     ShiroAccount shiroAccount = wxService.login(jsCode);
     log.info("--->>>shiroAccount信息:[{}]",shiroAccount);
-    WxUser user = this.getById(shiroAccount.getAuthName());
+    WxUser user = this.getUserInfo(shiroAccount.getAuthName());
     if (user == null) {
       // 用户不存在, 提醒用户提交注册信息
       res.put("canLogin",Boolean.FALSE.toString());
@@ -75,6 +71,7 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
   public WxUser saveOrUpdateUser(WxUser user, EduInfo eduInfo, JobInfo jobInfo) {
     WxUser userInfo = this.getUserInfo(user.getOpenId());
     if (null != userInfo) {
+      // 用户已注册，更新信息
       eduInfo.setId(userInfo.getEduId());
       jobInfo.setId(userInfo.getJobId());
     }
@@ -85,12 +82,6 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     // todo: 用户注册
     user.setEduId(eduId);
     user.setJobId(jobId);
-    Content myContent = this.contentService.getMyContent(user.getOpenId());
-    if (myContent == null) {
-      myContent = new Content();
-      myContent.setOpenId(user.getOpenId());
-      this.contentService.saveOrUpdate(myContent);
-    }
     this.saveOrUpdate(user);
     return this.getUserInfo(user.getOpenId());
   }
@@ -105,8 +96,10 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
   public WxUser getUserInfo(String openId) {
     Assert.notBlank(openId,"--->>>openID is null");
     WxUser wxUser = this.getById(openId);
-    wxUser.setEduInfo(this.eduInfoService.getEduInfoById(wxUser.getEduId()));
-    wxUser.setJobInfo(this.jobInfoService.getJobInfoById(wxUser.getJobId()));
+    if (wxUser != null) {
+      wxUser.setEduInfo(this.eduInfoService.getEduInfoById(wxUser.getEduId()));
+      wxUser.setJobInfo(this.jobInfoService.getJobInfoById(wxUser.getJobId()));
+    }
     return wxUser;
   }
 }

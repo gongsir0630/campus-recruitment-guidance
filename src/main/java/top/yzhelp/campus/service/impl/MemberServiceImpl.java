@@ -6,12 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.MemberMapper;
-import top.yzhelp.campus.model.other.Content;
 import top.yzhelp.campus.model.yzb.Member;
-import top.yzhelp.campus.service.ContentService;
 import top.yzhelp.campus.service.MemberService;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +20,6 @@ import java.util.List;
  */
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
-
-  @Resource
-  private ContentService contentService;
 
   /**
    * 获取柚子帮成员详情
@@ -84,42 +78,16 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     ArrayList<String> likes = !StrUtil.isBlank(detail.getLikeList())
       ? ListUtil.toList(detail.getLikeList().split(","))
       : new ArrayList<>();
-    // 更新用户自己的点赞列表
-    Content myContent = this.contentService.getMyContent(openId);
-    if (myContent == null) {
-      myContent = new Content();
-      myContent.setOpenId(openId);
-    }
-    ArrayList<String> myLikes = !StrUtil.isBlank(myContent.getMyFollow())
-      ? ListUtil.toList(myContent.getMyFollow().split(","))
-      : new ArrayList<>();
-    // 更新当前成员的被关注列表
-    Content hisContent = this.contentService.getMyContent(detail.getOpenId());
-    if (hisContent == null) {
-      hisContent = new Content();
-      hisContent.setOpenId(detail.getOpenId());
-    }
-    ArrayList<String> followHe = !StrUtil.isBlank(hisContent.getFollowMe())
-      ? ListUtil.toList(hisContent.getFollowMe().split(","))
-      : new ArrayList<>();
     if (!likes.contains(openId)) {
       // 点赞
       likes.add(openId);
-      myLikes.add(Integer.toString(id));
       detail.setLikeCount(detail.getLikeCount()+1);
-      followHe.add(openId);
     } else {
       // 取消点赞
       likes.remove(openId);
-      myLikes.remove(Integer.toString(id));
       detail.setLikeCount(detail.getLikeCount()>0 ? detail.getLikeCount()-1 : 0);
-      followHe.remove(openId);
     }
     detail.setLikeList(String.join(",",likes));
-    myContent.setMyFollow(String.join(",",myLikes));
-    hisContent.setFollowMe(String.join(",",followHe));
     this.updateById(detail);
-    this.contentService.saveOrUpdate(myContent);
-    this.contentService.saveOrUpdate(hisContent);
   }
 }

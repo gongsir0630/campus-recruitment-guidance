@@ -53,7 +53,9 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
   @Override
   public JobInfo getJobInfoById(int id) {
     JobInfo jobInfo = this.getById(id);
-    jobInfo.setCompany(this.companyService.getCompanyById(jobInfo.getCompanyId()));
+    if (jobInfo != null) {
+      jobInfo.setCompany(this.companyService.getCompanyById(jobInfo.getCompanyId()));
+    }
     return jobInfo;
   }
 
@@ -66,7 +68,9 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
   @Override
   public JobInfo getJobInfoByOpenId(String openId) {
     JobInfo jobInfo = this.getOne(new QueryWrapper<JobInfo>().eq("open_id", openId));
-    jobInfo.setCompany(this.companyService.getCompanyById(jobInfo.getCompanyId()));
+    if (jobInfo != null) {
+      jobInfo.setCompany(this.companyService.getCompanyById(jobInfo.getCompanyId()));
+    }
     return jobInfo;
   }
 

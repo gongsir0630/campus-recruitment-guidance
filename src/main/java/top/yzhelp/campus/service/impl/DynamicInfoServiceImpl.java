@@ -7,11 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.DynamicInfoMapper;
 import top.yzhelp.campus.model.dt.DynamicInfo;
-import top.yzhelp.campus.model.other.Content;
-import top.yzhelp.campus.service.ContentService;
 import top.yzhelp.campus.service.DynamicInfoService;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +20,6 @@ import java.util.List;
  */
 @Service
 public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, DynamicInfo> implements DynamicInfoService {
-
-  @Resource
-  private ContentService contentService;
 
   /**
    * 获取所有动态列表
@@ -51,23 +45,15 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
       ? ListUtil.toList(dt.getLikeList().split(","))
       : new ArrayList<>();
     // 更新用户自己的点赞列表
-    Content myContent = this.contentService.getMyContent(openId);
-    ArrayList<String> myLikes = !StrUtil.isBlank(myContent.getLikeNews())
-      ? ListUtil.toList(myContent.getLikeNews().split(","))
-      : new ArrayList<>();
     if (!likes.contains(openId)) {
       // 点赞
       likes.add(openId);
-      myLikes.add(Integer.toString(id));
     } else {
       // 取消点赞
       likes.remove(openId);
-      myLikes.remove(Integer.toString(id));
     }
     dt.setLikeList(String.join(",",likes));
     this.updateById(dt);
-    myContent.setLikeNews(String.join(",",myLikes));
-    this.contentService.updateById(myContent);
   }
 
   /**
@@ -94,24 +80,15 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
     ArrayList<String> collections = !StrUtil.isBlank(dt.getCollectionList())
       ? ListUtil.toList(dt.getCollectionList().split(","))
       : new ArrayList<>();
-    // 更新用户自己的收藏列表
-    Content myContent = this.contentService.getMyContent(openId);
-    ArrayList<String> myCollections = !StrUtil.isBlank(myContent.getCollectNews())
-      ? ListUtil.toList(myContent.getCollectNews().split(","))
-      : new ArrayList<>();
     if (!collections.contains(openId)) {
       // 收藏
       collections.add(openId);
-      myCollections.add(Integer.toString(id));
     } else {
       // 取消点赞
       collections.remove(openId);
-      myCollections.remove(Integer.toString(id));
     }
     dt.setCollectionList(String.join(",",collections));
     this.updateById(dt);
-    myContent.setCollectNews(String.join(",",myCollections));
-    this.contentService.updateById(myContent);
   }
 
   /**
@@ -121,17 +98,6 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
    */
   @Override
   public void deleteDtById(int id) {
-    DynamicInfo dt = this.getDtDetailById(id);
-    // todo: 删除所有点赞用户的点赞记录
-    ArrayList<String> likes = !StrUtil.isBlank(dt.getLikeList())
-      ? ListUtil.toList(dt.getLikeList().split(","))
-      : new ArrayList<>();
-    likes.forEach(openid -> this.contentService.deleteIdFromLikes(openid,id));
-    // todo: 删除所有收藏用户的收藏记录
-    ArrayList<String> collections = !StrUtil.isBlank(dt.getCollectionList())
-      ? ListUtil.toList(dt.getCollectionList().split(","))
-      : new ArrayList<>();
-    collections.forEach(openid -> this.contentService.deleteIdFromCollections(openid,id));
     // 删除动态
     this.removeById(id);
   }
@@ -145,15 +111,6 @@ public class DynamicInfoServiceImpl extends ServiceImpl<DynamicInfoMapper, Dynam
   @Override
   public DynamicInfo saveOrUpdateDt(DynamicInfo info) {
     this.saveOrUpdate(info);
-    Content myContent = this.contentService.getMyContent(info.getOpenId());
-    ArrayList<String> publish = !StrUtil.isBlank(myContent.getPublishNews())
-      ? ListUtil.toList(myContent.getPublishNews().split(","))
-      : new ArrayList<>();
-    if (!publish.contains(Integer.toString(info.getId()))) {
-      publish.add(Integer.toString(info.getId()));
-    }
-    myContent.setPublishNews(String.join(",",publish));
-    this.contentService.saveOrUpdate(myContent);
     return this.getDtDetailById(info.getId());
   }
 }

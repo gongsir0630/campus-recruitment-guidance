@@ -55,7 +55,9 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
   @Override
   public EduInfo getEduInfoById(int id) {
     EduInfo eduInfo = this.getById(id);
-    eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId()));
+    if (eduInfo != null) {
+      eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId()));
+    }
     return eduInfo;
   }
 
@@ -68,7 +70,9 @@ public class EduInfoServiceImpl extends ServiceImpl<EduInfoMapper, EduInfo> impl
   @Override
   public EduInfo getEduInfoByOpenId(String openId) {
     EduInfo eduInfo = this.getOne(new QueryWrapper<EduInfo>().eq("open_id", openId));
-    eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId()));
+    if (eduInfo != null) {
+      eduInfo.setSchool(this.schoolService.getSchoolById(eduInfo.getSchoolId()));
+    }
     return eduInfo;
   }
 

@@ -2,12 +2,12 @@ package top.yzhelp.campus.model.other;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -16,24 +16,23 @@ import java.io.Serializable;
  * @description 内容管理信息
  */
 @Data
-@TableName("content")
 @ApiModel("内容管理信息")
 public class Content implements Serializable {
   @TableId(type = IdType.INPUT)
   @ApiModelProperty("用户 ID")
   private String openId;
   @ApiModelProperty("发布的动态 Ids")
-  private String publishNews;
+  private List<Integer> publishNews;
   @ApiModelProperty("点赞动态 Ids")
-  private String likeNews;
+  private List<Integer> likeNews;
   @ApiModelProperty("收藏动态 Ids")
-  private String collectNews;
+  private List<Integer> collectNews;
   @ApiModelProperty("发布的内推 Ids")
-  private String publishRecommendations;
+  private List<Integer> publishRecommendations;
   @ApiModelProperty("点赞的内推 Ids")
-  private String likeRecommendations;
-  @ApiModelProperty("关注我的 Ids")
-  private String followMe;
+  private List<Integer> likeRecommendations;
+  @ApiModelProperty("关注我的 openIds")
+  private List<String> followMe;
   @ApiModelProperty("我关注的 Ids")
-  private String myFollow;
+  private List<Integer> myFollow;
 }

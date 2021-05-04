@@ -90,8 +90,14 @@ public class UserController {
     WxUser wxUser = jsonObject.getObject("wxUser", WxUser.class);
     wxUser.setOpenId(getOpenId());
     EduInfo eduInfo = jsonObject.getObject("eduInfo", EduInfo.class);
+    if (eduInfo.getId() == 0) {
+      eduInfo.setId(null);
+    }
     eduInfo.setOpenId(getOpenId());
     JobInfo jobInfo = jsonObject.getObject("jobInfo", JobInfo.class);
+    if (jobInfo.getId() == 0) {
+      jobInfo.setId(null);
+    }
     jobInfo.setOpenId(getOpenId());
     System.out.println(wxUser);
     System.out.println(eduInfo);
