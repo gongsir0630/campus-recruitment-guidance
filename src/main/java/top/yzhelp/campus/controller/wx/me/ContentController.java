@@ -92,7 +92,7 @@ public class ContentController {
     );
     if (member != null) {
       content.setFollowMe(!StrUtil.isBlank(member.getLikeList())
-        ? ListUtil.toList()
+        ? ListUtil.toList(member.getLikeList().split(","))
         : new ArrayList<>());
     }
 

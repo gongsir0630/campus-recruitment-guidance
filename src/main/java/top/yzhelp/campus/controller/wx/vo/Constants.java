@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface Constants {
   /**
-   * 审核状态: 0,1,2 分别代表 "认证失败","待审核","认证通过"
+   * 审核状态: 0,1,2 分别代表 "未认证","待审核","认证通过"
    */
-  public static final List<String> CET_STATUS = Arrays.asList("认证失败","待审核","认证通过");
+  public static final List<String> CET_STATUS = Arrays.asList("未认证","待审核","认证通过");
 
   /**
    * 轮播图类型: 0,1,2,3 分别代表 "首页","内推-岗位订阅","内推-show","柚子帮入口"
