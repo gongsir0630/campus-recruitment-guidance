@@ -17,6 +17,7 @@ import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.WxUser;
 import top.yzhelp.campus.service.EduInfoService;
+import top.yzhelp.campus.service.MsgService;
 import top.yzhelp.campus.service.WxUserService;
 import top.yzhelp.campus.shiro.ShiroRealm;
 
@@ -42,6 +43,8 @@ public class EduInfoController {
   private WxUserService userService;
   @Autowired
   private StringRedisTemplate redisTemplate;
+  @Resource
+  private MsgService msgService;
 
   /**
    * 从认证信息中获取用户 openId
@@ -66,6 +69,9 @@ public class EduInfoController {
     // 认证通过
     eduInfo.setStatus(Constants.CET_STATUS.get(2));
     this.eduInfoService.saveOrUpdate(eduInfo);
+    // TODO: 向用户推送认证状态
+    msgService.sendMsg("认证教育信息:"+eduInfo.getSchool().getName(), eduInfo.getStatus(),
+      userInfo.getOpenId(), Constants.INFO_AUTH_ID);
     // 删除key
     redisTemplate.delete(edu_token_id);
     return "success";
@@ -82,7 +88,8 @@ public class EduInfoController {
     // 3天有效
     redisTemplate.opsForValue().set(edu_token_id,getOpenId(),3, TimeUnit.DAYS);
     // 跳转链接
-    String url = "https://yzhelp.top/wx/edu/check?edu_token_id="+edu_token_id;
+//    String url = "https://yzhelp.top/wx/edu/check?edu_token_id="+edu_token_id;
+    String url = "http://localhost:8082/wx/edu/check?edu_token_id="+edu_token_id;
     // 当天日期
     String today = DateUtil.today();
     // 待审核

@@ -86,6 +86,7 @@ public class UserController {
   @ApiOperation("小程序用户注册或者用户信息更新接口")
   @RequiresRoles("wx")
   public ResponseEntity<Result<Map<String,Object>>> registry(@RequestBody String json) {
+    log.info("--->>>json信息：[{}]",json);
     JSONObject jsonObject = JSON.parseObject(json);
     WxUser wxUser = jsonObject.getObject("wxUser", WxUser.class);
     wxUser.setOpenId(getOpenId());
@@ -95,13 +96,16 @@ public class UserController {
     }
     eduInfo.setOpenId(getOpenId());
     JobInfo jobInfo = jsonObject.getObject("jobInfo", JobInfo.class);
-    if (jobInfo.getId() == 0) {
-      jobInfo.setId(null);
+    if (jobInfo.getId() == -1) {
+      // 用户未提交工作信息，不注册
+      jobInfo = null;
+    } else {
+      if (jobInfo.getId() == 0) {
+        // 首次提交信息，id设置为null，数据库自增
+        jobInfo.setId(null);
+      }
+      jobInfo.setOpenId(getOpenId());
     }
-    jobInfo.setOpenId(getOpenId());
-    System.out.println(wxUser);
-    System.out.println(eduInfo);
-    System.out.println(jobInfo);
     WxUser newUser = this.userService.saveOrUpdateUser(wxUser, eduInfo, jobInfo);
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("userInfo",newUser);

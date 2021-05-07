@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
+import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.controller.wx.vo.DynamicResponse;
 import top.yzhelp.campus.model.dt.DynamicInfo;
 import top.yzhelp.campus.model.yh.EduInfo;
@@ -105,7 +106,7 @@ public class DynamicInfoController {
     List<DynamicResponse> data = new ArrayList<>();
     // 对信息进行进一步处理
     records.forEach(dt -> {
-      // todo: 获取发布人信息
+      // 获取发布人信息
       WxUser userInfo = this.userService.getUserInfo(dt.getOpenId());
       // 转换话题标签列表
       List<String> tags = dt.getTopicTags() != null
@@ -113,16 +114,16 @@ public class DynamicInfoController {
         : new ArrayList<>();
       dt.setTopicTags(String.join(",",tags));
       DynamicResponse response = new DynamicResponse(userInfo, dt);
-      // todo: 设置工作认证信息
+      // 设置工作认证信息
       JobInfo job = jobInfoService.getJobInfoByOpenId(userInfo.getOpenId());
-      if (job == null || !Boolean.parseBoolean(job.getStatus())) {
+      if (job == null || !Constants.CET_STATUS.get(2).equals(job.getStatus())) {
         response.setJobTitle("未认证职业信息");
       } else {
         response.setJobTitle(job.getJobTitle());
       }
-      // todo: 设置工作认证信息
+      // 设置工作认证信息
       EduInfo edu = eduInfoService.getEduInfoByOpenId(userInfo.getOpenId());
-      if (edu == null || !Boolean.parseBoolean(edu.getStatus())) {
+      if (edu == null || !Constants.CET_STATUS.get(2).equals(edu.getStatus())) {
         response.setMajor("未认证教育信息");
       } else {
         response.setMajor(edu.getMajor());

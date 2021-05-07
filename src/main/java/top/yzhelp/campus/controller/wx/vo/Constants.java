@@ -29,4 +29,9 @@ public interface Constants {
    * 受理状态: 0,1 分别代表 "待受理","已受理"
    */
   public static final List<String> ACCEPT_STATUS = Arrays.asList("待受理","已受理");
+
+  /**
+   * 订阅消息模板ID -- 认证结果通知
+   */
+  public static final String INFO_AUTH_ID = "S64FTo5YCMPQ4vtiIm6rQAZ9VKPQ8cTaWX1p8uA2E-s";
 }

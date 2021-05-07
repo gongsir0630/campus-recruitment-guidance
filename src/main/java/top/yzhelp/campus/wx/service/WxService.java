@@ -1,5 +1,6 @@
 package top.yzhelp.campus.wx.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import top.yzhelp.campus.shiro.vo.ShiroAccount;
 
 /**
@@ -19,4 +20,10 @@ public interface WxService {
    * @return JSONObject: 包含openId和sessionKey
    */
   ShiroAccount login(String code);
+
+  /**
+   * 发送订阅消息
+   * @param message 订阅消息内容
+   */
+  void sendSubMsg(WxMaSubscribeMessage message);
 }

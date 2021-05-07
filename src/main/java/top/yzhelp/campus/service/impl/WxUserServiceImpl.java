@@ -73,12 +73,17 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     if (null != userInfo) {
       // 用户已注册，更新信息
       eduInfo.setId(userInfo.getEduId());
-      jobInfo.setId(userInfo.getJobId());
+      if (userInfo.getJobId() != 0) {
+        jobInfo.setId(userInfo.getJobId());
+      }
     }
     // todo: 保存教育信息
     Integer eduId = eduInfoService.saveOrUpdateEduInfo(eduInfo).getId();
     // todo: 保存工作信息
-    Integer jobId = jobInfoService.saveOrUpdateJobInfo(jobInfo).getId();
+    Integer jobId = 0;
+    if (jobInfo != null) {
+      jobId = jobInfoService.saveOrUpdateJobInfo(jobInfo).getId();
+    }
     // todo: 用户注册
     user.setEduId(eduId);
     user.setJobId(jobId);

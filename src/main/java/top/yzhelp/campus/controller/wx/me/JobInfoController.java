@@ -17,6 +17,7 @@ import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.yh.JobInfo;
 import top.yzhelp.campus.model.yh.WxUser;
 import top.yzhelp.campus.service.JobInfoService;
+import top.yzhelp.campus.service.MsgService;
 import top.yzhelp.campus.service.WxUserService;
 import top.yzhelp.campus.shiro.ShiroRealm;
 
@@ -42,6 +43,8 @@ public class JobInfoController {
   private WxUserService userService;
   @Autowired
   private StringRedisTemplate redisTemplate;
+  @Resource
+  private MsgService msgService;
 
   /**
    * 从认证信息中获取用户 openId
@@ -66,6 +69,9 @@ public class JobInfoController {
     // 认证通过
     jobInfo.setStatus(Constants.CET_STATUS.get(2));
     this.jobInfoService.saveOrUpdate(jobInfo);
+    // TODO: 向用户推送认证状态
+    msgService.sendMsg("认证工作信息:"+jobInfo.getCompany().getName(), jobInfo.getStatus(),
+      userInfo.getOpenId(), Constants.INFO_AUTH_ID);
     // 删除key
     redisTemplate.delete(job_token_id);
     return "success";

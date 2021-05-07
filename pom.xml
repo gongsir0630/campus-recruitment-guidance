@@ -13,9 +13,23 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
+    <!-- wx-java-miniapp版本 -->
+    <weixin-java-miniapp.version>4.0.0</weixin-java-miniapp.version>
   </properties>
 
   <dependencies>
+    <!-- WxJava-SDK -->
+    <dependency>
+      <groupId>com.github.binarywang</groupId>
+      <artifactId>weixin-java-miniapp</artifactId>
+      <version>${weixin-java-miniapp.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-io</artifactId>
+          <groupId>commons-io</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <!-- 邮件工具 -->
     <dependency>
       <groupId>com.sun.mail</groupId>

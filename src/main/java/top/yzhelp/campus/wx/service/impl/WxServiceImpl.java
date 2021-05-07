@@ -1,5 +1,7 @@
 package top.yzhelp.campus.wx.service.impl;
 
+import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +16,6 @@ import top.yzhelp.campus.util.JwtUtil;
 import top.yzhelp.campus.wx.service.WxService;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -63,5 +64,18 @@ public class WxServiceImpl implements WxService {
     // todo: 小程序用户登录,设置角色信息为 wx
     return new ShiroAccount(data.getString("openId")
       ,data.getString("sessionKey"), Collections.singletonList(JwtUtil.ROLE_WX));
+  }
+
+  @Override
+  public void sendSubMsg(WxMaSubscribeMessage message) {
+    MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+    // 参数封装, 微信登录需要以下参数
+    request.add("toUser", message.getToUser());
+    request.add("templateId", message.getTemplateId());
+    request.add("data", JSON.toJSON(message.getData()).toString());
+    // eg: http://localhost:8081/wx/msg/{appid}/send
+    String path = url+"/msg/"+appid+"/send";
+    String res = restTemplate.postForObject(path, request, String.class);
+    log.info(res);
   }
 }

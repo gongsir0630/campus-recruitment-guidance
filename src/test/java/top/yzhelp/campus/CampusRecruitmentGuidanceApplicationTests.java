@@ -1,17 +1,25 @@
 package top.yzhelp.campus;
 
+import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.extra.mail.MailUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.School;
+import top.yzhelp.campus.wx.service.WxService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class CampusRecruitmentGuidanceApplicationTests {
+
+  @Autowired
+  private WxService wxService;
 
   @Test
   void contextLoads() {
@@ -37,6 +45,25 @@ class CampusRecruitmentGuidanceApplicationTests {
       +"<p>西南石油大学-柚子帮</p>"
       +"<p>"+today+"</p>";
     MailUtil.send(mail,"柚子帮学校邮箱认证",content,true);
+  }
+
+  @Test
+  void sendSubMsgTest() {
+    WxMaSubscribeMessage message = new WxMaSubscribeMessage();
+    // 消息内容
+    List<WxMaSubscribeMessage.Data> data = new ArrayList<>();
+    // 认证类型
+    data.add(new WxMaSubscribeMessage.Data("thing1","教育信息认证:西南石油大学"));
+    // 认证结果
+    data.add(new WxMaSubscribeMessage.Data("phrase2","认证通过"));
+    // 认证时间
+    data.add(new WxMaSubscribeMessage.Data("date3",DateUtil.today()));
+    // 接收人
+    message.setToUser("olAW-4vIdX8DTkzftHveDWIlR4zU");
+    // 模板ID
+    message.setTemplateId(Constants.INFO_AUTH_ID);
+    message.setData(data);
+    wxService.sendSubMsg(message);
   }
 
 }
