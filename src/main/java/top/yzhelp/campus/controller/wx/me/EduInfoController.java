@@ -88,8 +88,8 @@ public class EduInfoController {
     // 3天有效
     redisTemplate.opsForValue().set(edu_token_id,getOpenId(),3, TimeUnit.DAYS);
     // 跳转链接
-//    String url = "https://yzhelp.top/wx/edu/check?edu_token_id="+edu_token_id;
-    String url = "http://localhost:8082/wx/edu/check?edu_token_id="+edu_token_id;
+    String url = "https://yzhelp.top/wx/edu/check?edu_token_id="+edu_token_id;
+//    String url = "http://localhost:8082/wx/edu/check?edu_token_id="+edu_token_id;
     // 当天日期
     String today = DateUtil.today();
     // 待审核
