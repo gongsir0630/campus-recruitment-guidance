@@ -37,4 +37,6 @@ public class JobInfo implements Serializable {
   private String status;
   @TableField(exist = false)
   private Company company;
+  @TableField(exist = false)
+  private WxUser user;
 }

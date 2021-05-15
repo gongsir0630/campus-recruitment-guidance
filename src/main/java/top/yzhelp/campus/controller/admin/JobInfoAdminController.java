@@ -14,6 +14,7 @@ import top.yzhelp.campus.controller.res.Result;
 import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.yh.JobInfo;
 import top.yzhelp.campus.service.JobInfoService;
+import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,6 +35,8 @@ public class JobInfoAdminController {
 
   @Resource
   private JobInfoService jobInfoService;
+  @Resource
+  private WxUserService userService;
 
   @ApiOperation("申请审核")
   @PostMapping("/certificate/{status}")
@@ -60,6 +63,7 @@ public class JobInfoAdminController {
   })
   public ResponseEntity<Result<?>> all() {
     List<JobInfo> allInfoList = this.jobInfoService.getAllInfoList();
+    allInfoList.forEach(jobInfo -> jobInfo.setUser(this.userService.getUserInfo(jobInfo.getOpenId())));
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("list",allInfoList);
     data.put("total",allInfoList.size());

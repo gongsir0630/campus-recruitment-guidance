@@ -46,6 +46,14 @@ public class RecommendationController {
     return ShiroRealm.getShiroAccount().getAuthName();
   }
 
+  @DeleteMapping("/{id}")
+  @ApiOperation("删除")
+  @RequiresRoles("wx")
+  public ResponseEntity<Result<?>> deleteById(@PathVariable int id) {
+    this.recommendationService.removeById(id);
+    return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
+  }
+
   @PostMapping
   @ApiOperation("发布内推 | 更新")
   @RequiresRoles("wx")

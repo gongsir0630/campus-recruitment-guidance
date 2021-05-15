@@ -114,6 +114,7 @@ public class DynamicInfoController {
         : new ArrayList<>();
       dt.setTopicTags(String.join(",",tags));
       DynamicResponse response = new DynamicResponse(userInfo, dt);
+      response.setUser(userInfo);
       // 设置工作认证信息
       JobInfo job = jobInfoService.getJobInfoByOpenId(userInfo.getOpenId());
       if (job == null || !Constants.CET_STATUS.get(2).equals(job.getStatus())) {

@@ -3,11 +3,14 @@ package top.yzhelp.campus;
 import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.yzhelp.campus.controller.wx.vo.Constants;
+import top.yzhelp.campus.model.other.SearchRecord;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.model.yh.School;
 import top.yzhelp.campus.wx.service.WxService;
@@ -20,6 +23,40 @@ class CampusRecruitmentGuidanceApplicationTests {
 
   @Autowired
   private WxService wxService;
+
+  @Test
+  void testUpdate() {
+    SearchRecord record = new SearchRecord();
+    record.setOpenId("201731061426");
+    update(record,"index","index1,index2,index3");
+    update(record,"nt","nt1,nt2,nt3");
+    update(record,"member","mem1,mem2,mem3");
+    update(record,"member","4,5,6");
+  }
+
+  void update(SearchRecord mySearch,String key,String val) {
+    SearchRecord.Record record;
+    if (StrUtil.isBlank(mySearch.getKeyword())) {
+      record = new SearchRecord.Record();
+    } else {
+      record = JSONObject.parseObject(mySearch.getKeyword(), SearchRecord.Record.class);
+    }
+    switch (key) {
+      case "index":
+        record.setIndexRec(val);
+        break;
+      case "nt":
+        record.setNtRec(val);
+        break;
+      case "member":
+        record.setMemberRec(val);
+        break;
+      default:
+        break;
+    }
+    mySearch.setKeyword(JSONObject.toJSONString(record));
+    System.out.println(mySearch);
+  }
 
   @Test
   void contextLoads() {

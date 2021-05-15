@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +42,18 @@ public class AdminUserController {
     return ShiroRealm.getShiroAccount().getAuthName();
   }
 
+  @GetMapping("mine")
+  @RequiresRoles("admin")
+  public ResponseEntity<Result<?>> getProfile() {
+    return new ResponseEntity<>(Result.success(this.adminUserService.getByUserId(getOpenId())),HttpStatus.OK);
+  }
+
+  @GetMapping("list")
+  @RequiresRoles("admin")
+  public ResponseEntity<Result<?>> getList() {
+    return new ResponseEntity<>(Result.success(this.adminUserService.list()),HttpStatus.OK);
+  }
+
   @PostMapping("/loginByTel")
   @ApiOperation("手机验证登陆")
   @ApiImplicitParams({
@@ -65,13 +79,13 @@ public class AdminUserController {
     @ApiResponse(code = 200,message = "接口调用成功"),
     @ApiResponse(code = 401,message = "登录信息异常,请检查 token 是否有效")
   })
-  public ResponseEntity<Result<?>> loginByPassword(String userId,String password) {
-    if (StringUtils.isBlank(userId) || StringUtils.isBlank(password)) {
+  public ResponseEntity<Result<?>> loginByPassword(String username,String password) {
+    log.info("--->接收到来自Web端的登录请求:[userId: {}, password: {}]",username, password);
+    if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
       return new ResponseEntity<>(Result.fail(new CodeMsg(401,"用户名或密码不能为空"), null), HttpStatus.OK);
     }
-    log.info("--->接收到来自Web端的登录请求:[userId: {}, password: {}]",userId, password);
 
-    Map<String, String> loginMap = this.adminUserService.loginByPass(userId, password);
+    Map<String, String> loginMap = this.adminUserService.loginByPass(username, password);
     String token = loginMap.get("token");
     boolean canLogin = Boolean.parseBoolean(loginMap.get("canLogin"));
     var data = MapUtil.newHashMap();
@@ -82,7 +96,7 @@ public class AdminUserController {
       // todo: 用户不存在,提示用户注册
       return new ResponseEntity<>(Result.fail(CodeMsg.NO_USER,data),HttpStatus.OK);
     }
-    data.put("userInfo",this.adminUserService.getByUserId(userId));
+    data.put("userInfo",this.adminUserService.getByUserId(username));
     return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
   }
 }

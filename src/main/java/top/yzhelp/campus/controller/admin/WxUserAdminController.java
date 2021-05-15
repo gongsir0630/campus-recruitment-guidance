@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
 import top.yzhelp.campus.model.yh.WxUser;
+import top.yzhelp.campus.service.EduInfoService;
+import top.yzhelp.campus.service.JobInfoService;
 import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
@@ -35,6 +37,10 @@ public class WxUserAdminController {
 
   @Resource
   private WxUserService wxUserService;
+  @Resource
+  private EduInfoService eduInfoService;
+  @Resource
+  private JobInfoService jobInfoService;
 
   /**
    * 获取所有小程序用户信息
@@ -47,6 +53,10 @@ public class WxUserAdminController {
   })
   public ResponseEntity<Result<?>> all() {
     List<WxUser> list = this.wxUserService.list(new LambdaQueryWrapper<WxUser>().orderByDesc(WxUser::getRealName));
+    list.forEach(wxUser -> {
+      wxUser.setJobInfo(this.jobInfoService.getJobInfoById(wxUser.getJobId()));
+      wxUser.setEduInfo(this.eduInfoService.getEduInfoById(wxUser.getEduId()));
+    });
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("list",list);
     data.put("total",list.size());

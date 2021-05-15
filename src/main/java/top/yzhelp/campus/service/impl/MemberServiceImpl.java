@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import top.yzhelp.campus.mapper.MemberMapper;
 import top.yzhelp.campus.model.yzb.Member;
 import top.yzhelp.campus.service.MemberService;
+import top.yzhelp.campus.service.WxUserService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,9 @@ import java.util.List;
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
 
+  @Resource
+  private WxUserService userService;
+
   /**
    * 获取柚子帮成员详情
    *
@@ -29,7 +34,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
    */
   @Override
   public Member getMemberDetailByOpenId(String openId) {
-    return this.getOne(new LambdaQueryWrapper<Member>().eq(Member::getOpenId,openId));
+    Member member = this.getOne(new LambdaQueryWrapper<Member>().eq(Member::getOpenId, openId));
+    if (member != null) {
+      member.setUser(userService.getUserInfo(member.getOpenId()));
+    }
+    return member;
   }
 
   /**
@@ -40,7 +49,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
    */
   @Override
   public Member getMemberDetailById(int id) {
-    return this.getById(id);
+    Member member = this.getById(id);
+    if (member != null) {
+      member.setUser(userService.getUserInfo(member.getOpenId()));
+    }
+    return member;
   }
 
   /**
@@ -52,7 +65,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
   @Override
   public Member saveOrUpdateMember(Member member) {
     this.saveOrUpdate(member);
-    return this.getById(member.getId());
+    return this.getMemberDetailById(member.getId());
   }
 
   /**
@@ -62,7 +75,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
    */
   @Override
   public List<Member> getAllMemberList() {
-    return this.list(new LambdaQueryWrapper<Member>().orderByDesc(Member::getLikeCount));
+    List<Member> list = this.list(new LambdaQueryWrapper<Member>().orderByDesc(Member::getLikeCount));
+    list.forEach(member -> member.setUser(this.userService.getUserInfo(member.getOpenId())));
+    return list;
   }
 
   /**

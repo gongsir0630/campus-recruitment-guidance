@@ -10,15 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.yzhelp.campus.controller.res.Result;
 import top.yzhelp.campus.controller.wx.vo.Constants;
-import top.yzhelp.campus.controller.wx.vo.MemberApplyResponse;
-import top.yzhelp.campus.model.yh.EduInfo;
-import top.yzhelp.campus.model.yh.WxUser;
 import top.yzhelp.campus.model.yzb.Member;
 import top.yzhelp.campus.service.*;
 import top.yzhelp.campus.shiro.ShiroRealm;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,15 +29,6 @@ import java.util.Map;
 @RequestMapping("wx/member")
 @Api(tags = "MINIAPP-小程序柚子帮接口")
 public class MemberController {
-
-  @Resource
-  private WxUserService userService;
-  @Resource
-  private EduInfoService eduInfoService;
-  @Resource
-  private JobInfoService jobInfoService;
-  @Resource
-  private CompanyService companyService;
   @Resource
   private MemberService memberService;
 
@@ -65,19 +52,9 @@ public class MemberController {
   @ApiOperation("柚子帮列表展示")
   public ResponseEntity<Result<?>> all() {
     List<Member> records = this.memberService.getAllMemberList();
-    List<MemberApplyResponse> data = new ArrayList<>();
-    records.forEach(member -> {
-      final String openId = member.getOpenId();
-      WxUser userInfo = this.userService.getUserInfo(openId);
-      EduInfo edu = this.eduInfoService.getEduInfoById(userInfo.getEduId());
-      MemberApplyResponse response = new MemberApplyResponse(userInfo,edu);
-      response.setMember(member);
-      response.setSelectStatus(member.getCurrentState());
-      data.add(response);
-    });
     Map<String,Object> res = MapUtil.newHashMap();
-    res.put("list",data);
-    res.put("total",data.size());
+    res.put("list",records);
+    res.put("total",records.size());
     return new ResponseEntity<>(Result.success(res),HttpStatus.OK);
   }
 

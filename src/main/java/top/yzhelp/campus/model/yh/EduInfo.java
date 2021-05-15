@@ -43,4 +43,6 @@ public class EduInfo implements Serializable {
   private String status;
   @TableField(exist = false)
   private School school;
+  @TableField(exist = false)
+  private WxUser user;
 }

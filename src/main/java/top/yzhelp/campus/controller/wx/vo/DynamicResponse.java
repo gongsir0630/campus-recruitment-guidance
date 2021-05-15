@@ -10,7 +10,6 @@ import top.yzhelp.campus.model.dt.DynamicInfo;
 import top.yzhelp.campus.model.yh.WxUser;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
@@ -39,6 +38,8 @@ public class DynamicResponse implements Serializable {
   private Boolean isLike;
   @ApiModelProperty("动态详情")
   private DynamicInfo detail;
+  @ApiModelProperty("发布人信息")
+  private WxUser user;
 
   /**
    * 构造方法

@@ -2,9 +2,7 @@ package top.yzhelp.campus.controller.admin;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -16,6 +14,7 @@ import top.yzhelp.campus.controller.res.Result;
 import top.yzhelp.campus.controller.wx.vo.Constants;
 import top.yzhelp.campus.model.yh.EduInfo;
 import top.yzhelp.campus.service.EduInfoService;
+import top.yzhelp.campus.service.WxUserService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,6 +35,8 @@ public class EduInfoAdminController {
 
   @Resource
   private EduInfoService eduInfoService;
+  @Resource
+  private WxUserService userService;
 
   @ApiOperation("申请审核")
   @PostMapping("/certificate/{status}")
@@ -62,6 +63,7 @@ public class EduInfoAdminController {
   })
   public ResponseEntity<Result<?>> all() {
     List<EduInfo> allInfoList = this.eduInfoService.getAllInfoList();
+    allInfoList.forEach(eduInfo -> eduInfo.setUser(this.userService.getUserInfo(eduInfo.getOpenId())));
     Map<String,Object> data = MapUtil.newHashMap();
     data.put("list",allInfoList);
     data.put("total",allInfoList.size());
