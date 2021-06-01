@@ -24,7 +24,7 @@ import java.util.List;
  * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
  * @date 2021/4/26 11:49
  * 你的指尖,拥有改变世界的力量
- * @description description
+ * @description 小程序反馈接口
  */
 @RestController
 @Slf4j
@@ -58,7 +58,7 @@ public class FeedBackController {
   @GetMapping("/me")
   @ApiOperation("获取当前用户的所有反馈")
   @RequiresRoles("wx")
-  public ResponseEntity<Result<?>> getEduInfoById() {
+  public ResponseEntity<Result<?>> list() {
     List<FeedBack> feedBacks = this.feedBackService.getFeedBackByOpenId(getOpenId());
     return new ResponseEntity<>(Result.success(feedBacks), HttpStatus.OK);
   }

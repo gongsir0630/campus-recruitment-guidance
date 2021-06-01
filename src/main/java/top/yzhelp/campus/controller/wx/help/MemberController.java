@@ -15,6 +15,7 @@ import top.yzhelp.campus.service.*;
 import top.yzhelp.campus.shiro.ShiroRealm;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,7 @@ public class MemberController {
     }
     member.setOpenId(getOpenId());
     member.setCertificationStatus(Constants.CET_STATUS.get(1));
+    member.setApplyTime(new Date());
     Member newMember = this.memberService.saveOrUpdateMember(member);
     return new ResponseEntity<>(Result.success(newMember),HttpStatus.OK);
   }
