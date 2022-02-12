@@ -8,10 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
- * @date 2021/3/29 12:44
- * 你的指尖,拥有改变世界的力量
- * @description MyBatis-Plus插件配置
+ * @author 码之泪殇 <gongsir0630@gmail.com>
+ * Created on 2022-02-12
  */
 @Configuration
 @MapperScan("top.yzhelp.campus.mapper")

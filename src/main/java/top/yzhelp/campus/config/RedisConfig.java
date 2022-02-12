@@ -7,10 +7,8 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 /**
- * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
- * @date 2021/3/29 12:21
- * 你的指尖,拥有改变世界的力量
- * @description Redis 配置
+ * @author 码之泪殇 <gongsir0630@gmail.com>
+ * Created on 2022-02-12
  */
 @Configuration
 @EnableCaching

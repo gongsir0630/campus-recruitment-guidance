@@ -13,14 +13,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
- * @date 2021/4/1 15:38
- * 你的指尖,拥有改变世界的力量
- * @description swagger2配置类
+ * @author 码之泪殇 <gongsir0630@gmail.com>
+ * Created on 2022-02-12
  */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
   @Value("${spring.application.name}")
   private String appName;
 

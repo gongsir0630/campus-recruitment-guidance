@@ -9,7 +9,8 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
+ * @author 码之泪殇 <gongsir0630@gmail.com>
+ * Created on 2022-02-12
  */
 @SpringBootApplication
 public class CampusRecruitmentGuidanceApplication {

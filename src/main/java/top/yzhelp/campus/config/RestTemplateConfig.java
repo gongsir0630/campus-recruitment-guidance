@@ -7,10 +7,8 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
- * @date 2021/3/29 12:23
- * 你的指尖,拥有改变世界的力量
- * @description RestTemplate的配置类
+ * @author 码之泪殇 <gongsir0630@gmail.com>
+ * Created on 2022-02-12
  */
 @Configuration
 public class RestTemplateConfig {

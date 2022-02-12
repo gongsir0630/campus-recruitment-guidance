@@ -30,4 +30,4 @@ logging:
 # 微信小程序配置
 wx:
   appid: wx2e1d0d6fb608404c
-  url: http://miniapp.yzhelp.top/wx
+  url: https://miniapp.yzhelp.top/wx
