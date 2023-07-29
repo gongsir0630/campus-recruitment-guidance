@@ -1,12 +1,13 @@
-package top.yzhelp.campus.model;
+package top.yzhelp.campus.model.basic;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 
 /**
- * @author 码之泪殇 <gongsir0630@gmail.com>
+ * @author kyle <gongsir0630@gmail.com>
  * Created on 2022-02-12
  */
 @Data
@@ -43,6 +44,7 @@ public class CrgUserEduInfo {
 
     /**
      * 学历
+     *
      * @see top.yzhelp.campus.enums.CrgEduInfoLevelEnum
      */
     private int level;
@@ -54,6 +56,7 @@ public class CrgUserEduInfo {
 
     /**
      * 信息认证状态
+     *
      * @see top.yzhelp.campus.enums.CrgCertificationStatusEnum
      */
     private int status;

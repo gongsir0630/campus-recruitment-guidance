@@ -1,10 +1,10 @@
-package top.yzhelp.campus.model;
+package top.yzhelp.campus.model.common;
 
 import lombok.Data;
 import top.yzhelp.campus.enums.CrgResultCode;
 
 /**
- * @author 码之泪殇 <gongsir0630@gmail.com>
+ * @author kyle <gongsir0630@gmail.com>
  * Created on 2022-02-12
  */
 @Data

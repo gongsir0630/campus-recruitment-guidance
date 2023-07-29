@@ -7,14 +7,14 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 /**
- * @author 码之泪殇 <gongsir0630@gmail.com>
+ * @author kyle <gongsir0630@gmail.com>
  * Created on 2022-02-12
  */
 @Configuration
 @EnableCaching
 public class RedisConfig {
-  @Bean
-  public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
-    return RedisCacheManager.create(factory);
-  }
+    @Bean
+    public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
+        return RedisCacheManager.create(factory);
+    }
 }

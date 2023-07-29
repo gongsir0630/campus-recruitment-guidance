@@ -1,13 +1,14 @@
 package top.yzhelp.campus.exception;
 
 import org.apache.commons.lang3.StringUtils;
+
 import top.yzhelp.campus.enums.CrgResultCode;
 
 /**
- * @author 码之泪殇 <gongsir0630@gmail.com>
+ * @author kyle <gongsir0630@gmail.com>
  * Created on 2022-02-12
  */
-public class CrgApiException extends RuntimeException{
+public class CrgApiException extends RuntimeException {
 
     private int code;
     private String msg;

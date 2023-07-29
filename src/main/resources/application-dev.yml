@@ -1,16 +1,16 @@
 # dev 环境
 spring:
-  redis:
-    host: yzhelp.top
-    port: 6379
-    database: 0
-    password: admin1234
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    name: defaultDataSource
-    url: jdbc:mysql://yzhelp.top:3306/campus-graduation-design?serverTimezone=UTC
-    username: root
-    password: admin1234
+    redis:
+        host: yzhelp.top
+        port: 6379
+        database: 0
+        password: admin1234
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        name: defaultDataSource
+        url: jdbc:mysql://yzhelp.top:3306/campus-graduation-design?serverTimezone=UTC
+        username: root
+        password: admin1234
 
 server:
-  port: 8082
+    port: 8082

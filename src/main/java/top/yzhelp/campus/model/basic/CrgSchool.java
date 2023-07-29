@@ -1,14 +1,15 @@
-package top.yzhelp.campus.model;
+package top.yzhelp.campus.model.basic;
+
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * @author 码之泪殇 <gongsir0630@gmail.com>
+ * @author kyle <gongsir0630@gmail.com>
  * Created on 2022-02-12
  */
 @Data
@@ -19,7 +20,7 @@ public class CrgSchool {
     private Long id;
 
     /**
-     * logo_url: eg.https://cdn.xxx.com/xxx.png
+     * logo_url: eg. {@code https://cdn.xxx.com/xxx.png}
      */
     private String logo;
 

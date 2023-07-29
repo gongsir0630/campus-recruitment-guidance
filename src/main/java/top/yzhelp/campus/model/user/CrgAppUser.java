@@ -1,17 +1,20 @@
-package top.yzhelp.campus.model;
+package top.yzhelp.campus.model.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 
 /**
- * @author 码之泪殇 <gongsir0630@gmail.com>
+ * 小程序用户信息
+ *
+ * @author kyle <gongsir0630@gmail.com>
  * Created on 2022-02-12
  */
 @Data
-@TableName(value = "crg_user")
-public class CrgUser {
+@TableName(value = "crg_app_user")
+public class CrgAppUser {
 
     /**
      * 用户openId, 唯一键

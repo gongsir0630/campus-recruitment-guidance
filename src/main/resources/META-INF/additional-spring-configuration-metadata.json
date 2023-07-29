@@ -1,13 +1,14 @@
 {
-  "properties": [
-    {
-      "name": "wx.appid",
-      "type": "java.lang.String",
-      "description": "Description for wx.appid."
-    },
-    {
-      "name": "wx.url",
-      "type": "java.lang.String",
-      "description": "Description for wx.url."
-    }
-  ] }
+    "properties": [
+        {
+            "name": "wx.appid",
+            "type": "java.lang.String",
+            "description": "Description for wx.appid."
+        },
+        {
+            "name": "wx.url",
+            "type": "java.lang.String",
+            "description": "Description for wx.url."
+        }
+    ]
+}

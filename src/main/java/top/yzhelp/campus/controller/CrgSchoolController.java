@@ -12,32 +12,32 @@ import io.swagger.annotations.Api;
 import top.yzhelp.campus.enums.CrgResultCode;
 import top.yzhelp.campus.exception.CrgApiException;
 import top.yzhelp.campus.model.common.CrgWebResponse;
-import top.yzhelp.campus.service.CrgCompanyService;
+import top.yzhelp.campus.service.CrgSchoolService;
 
 /**
  * @author kyle <gongsir0630@gmail.com>
- * Created on 2022-02-12
+ * Created on 2023/7/29
  */
 @RestController
-@RequestMapping("/wx/company")
-@Api(tags = "小程序端-企业信息接口")
-public class CrgCompanyController {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+@RequestMapping("/wx/school")
+@Api(tags = "小程序端-学校信息接口")
+public class CrgSchoolController {
+    private final Logger logger = LoggerFactory.getLogger(CrgSchoolController.class);
 
     @Autowired
-    private CrgCompanyService crgCompanyService;
+    private CrgSchoolService crgSchoolService;
 
     @GetMapping("/list")
     public CrgWebResponse<?> list() {
-        return CrgWebResponse.success(crgCompanyService.queryAll());
+        return CrgWebResponse.success(crgSchoolService.list());
     }
 
     @GetMapping("/{id}")
-    public CrgWebResponse<?> getById(@PathVariable Long id) {
-        logger.info("getById, id==>{}", id);
+    public CrgWebResponse<?> getSchoolById(@PathVariable Long id) {
+        logger.info("getSchoolById, id==>{}", id);
         if (id == null || id <= 0) {
             throw new CrgApiException(CrgResultCode.LOGIN_FAIL, "id为空");
         }
-        return CrgWebResponse.success(crgCompanyService.queryById(id));
+        return CrgWebResponse.success(crgSchoolService.getById(id));
     }
 }

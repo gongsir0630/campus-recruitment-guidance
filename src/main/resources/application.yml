@@ -1,33 +1,33 @@
 spring:
-  application:
-    name: campus-recruitment-guidance
-  thymeleaf:
-    cache: false
-    check-template: false
-    check-template-location: false
+    application:
+        name: campus-recruitment-guidance
+    thymeleaf:
+        cache: false
+        check-template: false
+        check-template-location: false
+        servlet:
+            content-type: text/html
+        enabled: false
+        encoding: UTF-8
+        mode: HTML5
+        prefix: classpath:/templates/
+        suffix: .html
+    # 配置文件环境
+    profiles:
+        active: '@profile.active@'
     servlet:
-      content-type: text/html
-    enabled: false
-    encoding: UTF-8
-    mode: HTML5
-    prefix: classpath:/templates/
-    suffix: .html
-  # 配置文件环境
-  profiles:
-    active: '@profile.active@'
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 10MB
+        multipart:
+            enabled: true
+            max-file-size: 10MB
+            max-request-size: 10MB
 
 # 设置日志级别
 logging:
-  level:
-    org.springframework.web: info
-    top.yzhelp.campus: debug
+    level:
+        org.springframework.web: info
+        top.yzhelp.campus: debug
 
 # 微信小程序配置
 wx:
-  appid: wx2e1d0d6fb608404c
-  url: https://miniapp.yzhelp.top/wx
+    appid: wx2e1d0d6fb608404c
+    url: https://miniapp.yzhelp.top/wx
