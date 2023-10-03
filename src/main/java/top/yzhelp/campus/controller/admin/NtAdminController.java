@@ -1,28 +1,34 @@
 package top.yzhelp.campus.controller.admin;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import top.yzhelp.campus.controller.res.Result;
-import top.yzhelp.campus.model.nt.Recommendation;
+import top.yzhelp.campus.model.Recommendation;
+import top.yzhelp.campus.model.common.Message;
 import top.yzhelp.campus.service.RecommendationService;
 
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author <a href="https://github.com/gongsir0630">码之泪殇</a>
+ * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/25 14:14
  * 你的指尖,拥有改变世界的力量
  * @description description
@@ -34,38 +40,40 @@ import java.util.Map;
 @RequiresRoles("admin")
 public class NtAdminController {
 
-  @Resource
-  private RecommendationService infoService;
+    @Resource
+    private RecommendationService infoService;
 
-  /**
-   * 获取所有内推
-   * @return 所有内推列表
-   */
-  @GetMapping(path = "/list")
-  @ApiOperation("获取所有内推")
-  @ApiResponses({
-    @ApiResponse(code = 200,message = "接口调用成功")
-  })
-  public ResponseEntity<Result<?>> all() {
-    List<Recommendation> list = this.infoService.list(new LambdaQueryWrapper<Recommendation>().orderByDesc(Recommendation::getId));
-    Map<String,Object> data = MapUtil.newHashMap();
-    data.put("list",list);
-    data.put("total",list.size());
-    return new ResponseEntity<>(Result.success(data),HttpStatus.OK);
-  }
+    /**
+     * 获取所有内推
+     *
+     * @return 所有内推列表
+     */
+    @GetMapping(path = "/list")
+    @ApiOperation("获取所有内推")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "接口调用成功")
+    })
+    public ResponseEntity<Message<?>> all() {
+        List<Recommendation> list =
+            this.infoService.list(new LambdaQueryWrapper<Recommendation>().orderByDesc(Recommendation::getId));
+        Map<String, Object> data = MapUtil.newHashMap();
+        data.put("list", list);
+        data.put("total", list.size());
+        return new ResponseEntity<>(Message.success(data), HttpStatus.OK);
+    }
 
-  @ApiOperation("更新信息")
-  @PostMapping
-  public ResponseEntity<Result<?>> update(Recommendation info) {
-    this.infoService.updateById(info);
-    return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
-  }
+    @ApiOperation("更新信息")
+    @PostMapping
+    public ResponseEntity<Message<?>> update(Recommendation info) {
+        this.infoService.updateById(info);
+        return new ResponseEntity<>(Message.success(null), HttpStatus.OK);
+    }
 
-  @ApiOperation("删除,多个 id 使用','分隔")
-  @DeleteMapping
-  public ResponseEntity<Result<?>> delete(String ids) {
-    List<String> idList = ListUtil.toList(ids.split(","));
-    this.infoService.removeByIds(idList);
-    return new ResponseEntity<>(Result.success(null),HttpStatus.OK);
-  }
+    @ApiOperation("删除,多个 id 使用','分隔")
+    @DeleteMapping
+    public ResponseEntity<Message<?>> delete(String ids) {
+        List<String> idList = ListUtil.toList(ids.split(","));
+        this.infoService.removeByIds(idList);
+        return new ResponseEntity<>(Message.success(null), HttpStatus.OK);
+    }
 }
