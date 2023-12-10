@@ -17,7 +17,6 @@ import top.yzhelp.campus.model.base.JobInfo;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:40
- * 你的指尖,拥有改变世界的力量
  * @description 微信小程序用户信息
  */
 @Data

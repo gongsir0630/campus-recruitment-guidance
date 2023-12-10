@@ -9,7 +9,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:21
- * 你的指尖,拥有改变世界的力量
  * @description Redis 配置
  */
 @Configuration

@@ -22,7 +22,6 @@ import top.yzhelp.campus.service.SearchRecordService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/26 11:49
- * 你的指尖,拥有改变世界的力量
  * @description 搜索记录相关接口
  */
 @Slf4j

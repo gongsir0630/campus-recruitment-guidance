@@ -9,7 +9,6 @@ import lombok.Data;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/10 19:34
- * 你的指尖,拥有改变世界的力量
  * @description 秘钥信息: 七牛云, 阿里云秘钥信息
  */
 @Data

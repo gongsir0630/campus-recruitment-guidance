@@ -16,7 +16,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/1 15:38
- * 你的指尖,拥有改变世界的力量
  * @description swagger2配置类
  */
 @Configuration

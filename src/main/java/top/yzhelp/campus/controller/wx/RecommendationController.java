@@ -31,7 +31,6 @@ import top.yzhelp.campus.shiro.ShiroRealm;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/14 16:32
- * 你的指尖,拥有改变世界的力量
  * @description 内推信息接口
  */
 @RestController

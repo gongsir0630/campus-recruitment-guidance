@@ -10,7 +10,6 @@ import lombok.Data;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:40
- * 你的指尖,拥有改变世界的力量
  * @description 搜索记录
  */
 @Data

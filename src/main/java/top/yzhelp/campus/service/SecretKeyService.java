@@ -7,7 +7,6 @@ import top.yzhelp.campus.model.SecretKey;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/10 19:38
- * 你的指尖,拥有改变世界的力量
  * @description 秘钥信息接口
  */
 public interface SecretKeyService extends IService<SecretKey> {

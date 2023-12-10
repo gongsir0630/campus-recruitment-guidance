@@ -9,7 +9,6 @@ import top.yzhelp.campus.model.base.School;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 16:18
- * 你的指尖,拥有改变世界的力量
  * @description 学校信息 Mapper
  */
 @Mapper

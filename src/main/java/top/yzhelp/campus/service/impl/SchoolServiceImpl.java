@@ -13,7 +13,6 @@ import top.yzhelp.campus.service.SchoolService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 16:17
- * 你的指尖,拥有改变世界的力量
  * @description 学校信息街口实现
  */
 @Service

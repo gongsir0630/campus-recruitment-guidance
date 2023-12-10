@@ -36,7 +36,6 @@ import top.yzhelp.campus.service.WxUserService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/25 14:14
- * 你的指尖,拥有改变世界的力量
  * @description description
  */
 @RestController

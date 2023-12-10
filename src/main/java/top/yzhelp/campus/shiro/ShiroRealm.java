@@ -27,7 +27,6 @@ import top.yzhelp.campus.util.JwtUtil;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 14:13
- * 你的指尖,拥有改变世界的力量
  * @description Realm 的一个配置管理类 allRealm()方法得到所有的realm
  */
 @Component

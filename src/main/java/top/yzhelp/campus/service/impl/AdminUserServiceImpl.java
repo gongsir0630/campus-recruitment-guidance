@@ -20,7 +20,6 @@ import top.yzhelp.campus.util.JwtUtil;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/25 11:23
- * 你的指尖,拥有改变世界的力量
  * @description 管理员用户接口实现
  */
 @Service

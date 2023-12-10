@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/25 20:50
- * 你的指尖,拥有改变世界的力量
  * @description 常量
  */
 public class CrgConstants {

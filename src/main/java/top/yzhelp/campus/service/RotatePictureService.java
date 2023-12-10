@@ -10,7 +10,6 @@ import top.yzhelp.campus.model.RotatePicture;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 15:48
- * 你的指尖,拥有改变世界的力量
  * @description 小程序轮播图接口
  */
 public interface RotatePictureService extends IService<RotatePicture> {

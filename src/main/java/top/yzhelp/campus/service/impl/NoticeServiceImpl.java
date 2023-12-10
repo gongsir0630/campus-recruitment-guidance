@@ -14,7 +14,6 @@ import top.yzhelp.campus.service.NoticeService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 09:27
- * 你的指尖,拥有改变世界的力量
  * @description 小程序公告接口实现
  */
 @Service

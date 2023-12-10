@@ -28,7 +28,6 @@ import top.yzhelp.campus.wx.service.WxService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:49
- * 你的指尖,拥有改变世界的力量
  * @description 小程序用户业务逻辑实现
  */
 @Slf4j

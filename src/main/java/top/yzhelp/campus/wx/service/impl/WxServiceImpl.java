@@ -26,7 +26,6 @@ import top.yzhelp.campus.wx.service.WxService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:59
- * 你的指尖,拥有改变世界的力量
  * @description 调用 wx-java-miniapp 实现具体微信请求
  */
 @Slf4j

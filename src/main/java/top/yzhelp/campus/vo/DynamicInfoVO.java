@@ -14,7 +14,6 @@ import top.yzhelp.campus.model.user.CrgWxUser;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/13 14:32
- * 你的指尖,拥有改变世界的力量
  * @description 动态信息 API 封装
  */
 @Data

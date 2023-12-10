@@ -17,7 +17,6 @@ import top.yzhelp.campus.service.TagService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 15:56
- * 你的指尖,拥有改变世界的力量
  * @description 标签接口实现
  */
 @Service

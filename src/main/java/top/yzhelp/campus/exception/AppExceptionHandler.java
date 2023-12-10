@@ -22,7 +22,6 @@ import top.yzhelp.campus.model.common.Message;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:36
- * 你的指尖,拥有改变世界的力量
  * @description 全局异常处理
  */
 @RestControllerAdvice

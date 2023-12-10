@@ -16,7 +16,6 @@ import top.yzhelp.campus.shiro.vo.JwtToken;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 19:47
- * 你的指尖,拥有改变世界的力量
  * @description jwt 核心过滤器
  * 执行流程 preHandle->isAccessAllowed->isLoginAttempt->executeLogin
  */

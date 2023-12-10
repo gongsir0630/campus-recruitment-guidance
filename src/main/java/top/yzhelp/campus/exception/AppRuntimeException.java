@@ -6,7 +6,6 @@ import top.yzhelp.campus.enums.WebResultCode;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/10 19:57
- * 你的指尖,拥有改变世界的力量
  * @description description
  */
 @Getter

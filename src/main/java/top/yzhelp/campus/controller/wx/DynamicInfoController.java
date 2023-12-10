@@ -37,7 +37,6 @@ import top.yzhelp.campus.vo.DynamicInfoVO;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/13 13:36
- * 你的指尖,拥有改变世界的力量
  * @description 小程序动态信息
  */
 @RestController

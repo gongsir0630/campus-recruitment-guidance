@@ -9,7 +9,6 @@ import top.yzhelp.campus.model.user.Member;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 09:35
- * 你的指尖,拥有改变世界的力量
  * @description 柚子帮成员 mapper
  */
 @Mapper

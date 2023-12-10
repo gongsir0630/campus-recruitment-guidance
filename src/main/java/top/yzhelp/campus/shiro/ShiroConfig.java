@@ -21,7 +21,6 @@ import top.yzhelp.campus.filter.JwtFilter;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 20:12
- * 你的指尖,拥有改变世界的力量
  * @description shiro核心配置
  */
 @Configuration

@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 12:44
- * 你的指尖,拥有改变世界的力量
  * @description MyBatis-Plus插件配置
  */
 @Configuration

@@ -14,7 +14,6 @@ import top.yzhelp.campus.service.FeedBackService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 15:46
- * 你的指尖,拥有改变世界的力量
  * @description 反馈信息接口实现
  */
 @Service

@@ -17,7 +17,6 @@ import top.yzhelp.campus.service.DynamicInfoService;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/4/8 08:58
- * 你的指尖,拥有改变世界的力量
  * @description 小程序动态功能模块 -> 接口实现
  */
 @Service

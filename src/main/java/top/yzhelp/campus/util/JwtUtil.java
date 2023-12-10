@@ -21,7 +21,6 @@ import top.yzhelp.campus.shiro.vo.ShiroAccount;
 /**
  * @author <a href="https://github.com/gongsir0630">Kyle</a>
  * @date 2021/3/29 13:13
- * 你的指尖,拥有改变世界的力量
  * @description jwt工具类: 生成token签名, token校验
  */
 @Component
