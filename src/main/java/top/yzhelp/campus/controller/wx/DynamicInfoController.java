@@ -1,6 +1,7 @@
 package top.yzhelp.campus.controller.wx;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class DynamicInfoController {
     @RequiresRoles("wx")
     public ResponseEntity<Message<?>> saveOrUpdate(CrgDynamicInfo info) {
         info.setOpenId(this.getOpenId());
-        info.setPublishTime(System.currentTimeMillis());
+        info.setPublishTime(new Date());
         CrgDynamicInfo dynamicInfo = this.dynamicInfoService.saveOrUpdateDt(info);
         DynamicInfoVO response = new DynamicInfoVO(this.userService.getUserInfo(getOpenId()), dynamicInfo);
         return new ResponseEntity<>(Message.success(response), HttpStatus.OK);
